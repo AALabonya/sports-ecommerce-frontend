@@ -9,13 +9,12 @@ import { TypeAnimation } from "react-type-animation";
 
 const Navbar = () => {
   const [collapse, setCollapse] = useState(false);
-
   const [mounted, setMounted] = useState(false);
   const [isTypeAnimationVisible, setIsTypeAnimationVisible] = useState(true);
   const [searchBtnClicked, setSearchBtnClicked] = useState(false);
   const [searchedProducts, setSearchedProducts] = useState([]);
 
-  const handleSeachText = (e) => {
+  const handleSearchText = (e) => {
     const searchText = e.target.value;
 
     if (searchText.length > 0) {
@@ -35,7 +34,7 @@ const Navbar = () => {
     }
   };
 
-  // submit search
+  //submit search
   const handleSearch = (e) => {
     e.preventDefault();
 
@@ -46,6 +45,7 @@ const Navbar = () => {
     setSearchBtnClicked(false);
     setSearchedProducts([]);
   };
+
   return (
     // Start Header
     <header>
@@ -70,7 +70,11 @@ const Navbar = () => {
               className="flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900  lg:mb-0 lg:mt-0"
               to="/"
             >
-              <img src="" className="w-16 md:w-32" alt=" Logo" />
+              <img
+                src="https://i.ibb.co/Jns4DFF/profit2.png"
+                className="w-16 md:w-24"
+                alt=" Logo"
+              />
             </Link>
           </div>
           {/* Main Menu Start */}
@@ -86,13 +90,13 @@ const Navbar = () => {
               <NavLink to="/blog" className="navLink">
                 All Products
               </NavLink>
-              <NavLink to="/contact-us" className="navLink">
+              <NavLink to="/manage-product" className="navLink">
                 Manage Product
               </NavLink>
               <NavLink to="/about-us" className="navLink">
                 About Us
               </NavLink>
-              <NavLink to="/about-us" className="navLink">
+              <NavLink to="/contact-us" className="navLink">
                 Contact Us
               </NavLink>
             </ul>
@@ -118,7 +122,7 @@ const Navbar = () => {
                   }`}
                 >
                   <input
-                    onChange={(e) => handleSeachText(e)}
+                    onChange={(e) => handleSearchText(e)}
                     type="text"
                     name="text"
                     className="w-[80%] bg-[color:var(--bg-primary)] shadow-md border border-slate-100 px-3 py-1 rounded-l-sm outline-none"
@@ -145,7 +149,7 @@ const Navbar = () => {
               </div>
 
               {/* cart */}
-              <Link href={"/cart"} className="inline-block relative">
+              <Link to={"/cart"} className="inline-block relative">
                 <CiShoppingCart className="text-2xl" />
                 <span className="w-4 h-4 bg-primary text-white absolute -top-2 -right-2 text-[10px] text-center rounded-full">
                   {mounted ? cart?.length : 0}
@@ -158,7 +162,7 @@ const Navbar = () => {
               </button>
 
               {/* add product btn */}
-              <Link href={"/add-product"} className="text-2xl hidden">
+              <Link to={"/add-cart"} className="text-2xl hidden">
                 <IoMdAddCircleOutline />
               </Link>
             </div>
