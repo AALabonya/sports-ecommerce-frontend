@@ -1,4 +1,5 @@
 import { useDeleteProductMutation } from "@/redux/api/baseApi";
+import UpdateProduct from "./UpdateProduct";
 
 export type TProductCardProps = {
   _id: string;
@@ -72,8 +73,13 @@ const ManageProductTable = ({
           </p>
         </td>
         <td className="p-4 border-b border-blue-gray-50">
+          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+            {brand}
+          </p>
+        </td>
+        <td className="p-4 border-b border-blue-gray-50">
           <div className="mt-4 flex justify-between items-center">
-            {/* <UpdateProductModal productId={_id}></UpdateProductModal> */}
+            <UpdateProduct productId={_id}></UpdateProduct>
             <button
               onClick={removeProduct}
               className="px-4 py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-500 transition-colors duration-300"

@@ -1,4 +1,4 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Dialog,
   DialogClose,
@@ -7,72 +7,107 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { useAddProductMutation } from "@/redux/api/baseApi";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useState, useEffect, FormEvent, ChangeEvent } from "react";
+import {
+  useGetProductByIdQuery,
+  useUpdateProductMutation,
+} from "@/redux/api/baseApi";
 import Swal from "sweetalert2";
 
-export default function AddProduct() {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [brand, setBrand] = useState("");
-  const [stockQuantity, setStockQuantity] = useState("");
-  const [rating, setRating] = useState("");
-  const [price, setPrice] = useState("");
-  const [image, setImage] = useState("");
+type FormData = {
+  name: string;
+  description: string;
+  category: string;
+  brand: string;
+  stockQuantity: string;
+  rating: string;
+  price: string;
+  image: string;
+};
 
-  const [addProduct, { data, isLoading, isError, isSuccess }] =
-    useAddProductMutation();
-  console.log(isLoading, isSuccess, isError, data);
-  const onSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+const UpdateProduct = ({ productId }) => {
+  const { data: productData } = useGetProductByIdQuery(productId);
+  const [updateProduct, { isLoading }] = useUpdateProductMutation();
 
-    const productAdd = {
-      name,
-      description,
-      category,
-      brand,
-      stockQuantity: Number(stockQuantity),
-      rating: Number(rating),
-      price: Number(price),
-      image,
-    };
-    console.log(productAdd);
-    try {
-      await addProduct(productAdd);
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Added Product successfully!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    } catch (error) {
-      Swal.fire({
-        position: "top-end",
-        icon: "error",
-        title: "Error adding product. Please try again.",
-        showConfirmButton: false,
-        timer: 1500,
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    description: "",
+    category: "",
+    brand: "",
+    stockQuantity: "",
+    rating: "",
+    price: "",
+    image: "",
+  });
+
+  useEffect(() => {
+    if (productData) {
+      setFormData({
+        name: productData.name || "",
+        description: productData.description || "",
+        category: productData.category || "",
+        brand: productData.brand || "",
+        stockQuantity: productData.stockQuantity
+          ? productData.stockQuantity.toString()
+          : "",
+        rating: productData.rating ? productData.rating.toString() : "",
+        price: productData.price ? productData.price.toString() : "",
+        image: productData.image || "",
       });
     }
-    // addProduct(productAdd);
+  }, [productData]);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
   };
+
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const updatedProduct = Object.keys(formData).reduce((acc, key) => {
+      const value = formData[key as keyof FormData];
+      if (value) {
+        acc[key as keyof FormData] = [
+          "stockQuantity",
+          "rating",
+          "price",
+        ].includes(key)
+          ? Number(value)
+          : value;
+      }
+      return acc;
+    }, {} as Partial<FormData>);
+
+    updateProduct({ id: productId, data: updatedProduct });
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Product Updated Successfully!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    // console.log({ productId, ...updatedProduct }, 'from update modal');
+  };
+
   return (
     <div>
       <Dialog>
         <DialogTrigger asChild>
-          <button className="px-4 py-2 bg-[#7ED957] text-white rounded-lg hover:bg-[#7ED957] transition-colors duration-300">
-            Add Product
+          <button className="px-4 py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-500 transition-colors duration-300">
+            Update
           </button>
         </DialogTrigger>
 
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Add Product</DialogTitle>
-            <DialogDescription>Add a new product</DialogDescription>
+            <DialogTitle>Update Product</DialogTitle>
+            <DialogDescription>Update the product details</DialogDescription>
           </DialogHeader>
           <form onSubmit={onSubmit}>
             <div className="grid gap-4 py-4">
@@ -81,7 +116,8 @@ export default function AddProduct() {
                   Name
                 </Label>
                 <Input
-                  onChange={(e) => setName(e.target.value)}
+                  value={formData.name}
+                  onChange={handleChange}
                   id="name"
                   className="col-span-3"
                 />
@@ -91,7 +127,8 @@ export default function AddProduct() {
                   Description
                 </Label>
                 <Input
-                  onChange={(e) => setDescription(e.target.value)}
+                  value={formData.description}
+                  onChange={handleChange}
                   id="description"
                   className="col-span-3"
                 />
@@ -101,7 +138,8 @@ export default function AddProduct() {
                   Category
                 </Label>
                 <Input
-                  onChange={(e) => setCategory(e.target.value)}
+                  value={formData.category}
+                  onChange={handleChange}
                   id="category"
                   className="col-span-3"
                 />
@@ -111,7 +149,8 @@ export default function AddProduct() {
                   Brand
                 </Label>
                 <Input
-                  onChange={(e) => setBrand(e.target.value)}
+                  value={formData.brand}
+                  onChange={handleChange}
                   id="brand"
                   className="col-span-3"
                 />
@@ -121,8 +160,10 @@ export default function AddProduct() {
                   Stock Quantity
                 </Label>
                 <Input
-                  onChange={(e) => setStockQuantity(e.target.value)}
+                  value={formData.stockQuantity}
+                  onChange={handleChange}
                   id="stockQuantity"
+                  type="number"
                   className="col-span-3"
                 />
               </div>
@@ -131,8 +172,10 @@ export default function AddProduct() {
                   Rating
                 </Label>
                 <Input
-                  onChange={(e) => setRating(e.target.value)}
+                  value={formData.rating}
+                  onChange={handleChange}
                   id="rating"
+                  type="number"
                   className="col-span-3"
                 />
               </div>
@@ -141,8 +184,10 @@ export default function AddProduct() {
                   Price
                 </Label>
                 <Input
-                  onChange={(e) => setPrice(e.target.value)}
+                  value={formData.price}
+                  onChange={handleChange}
                   id="price"
+                  type="number"
                   className="col-span-3"
                 />
               </div>
@@ -151,7 +196,8 @@ export default function AddProduct() {
                   Image Link
                 </Label>
                 <Input
-                  onChange={(e) => setImage(e.target.value)}
+                  value={formData.image}
+                  onChange={handleChange}
                   id="image"
                   className="col-span-3"
                 />
@@ -172,4 +218,6 @@ export default function AddProduct() {
       </Dialog>
     </div>
   );
-}
+};
+
+export default UpdateProduct;
