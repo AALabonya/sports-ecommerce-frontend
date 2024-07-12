@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -9,6 +10,8 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import { useAddProductMutation } from "@/redux/api/baseApi";
+import Swal from "sweetalert2";
 
 export default function AddProduct() {
   const [name, setName] = useState("");
@@ -19,11 +22,49 @@ export default function AddProduct() {
   const [rating, setRating] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState("");
+
+  const [addProduct, { data, isLoading, isError, isSuccess }] =
+    useAddProductMutation();
+  console.log(isLoading, isSuccess, isError, data);
+  const onSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    const productAdd = {
+      name,
+      description,
+      category,
+      brand,
+      stockQuantity: Number(stockQuantity),
+      rating: Number(rating),
+      price: Number(price),
+      image,
+    };
+    console.log(productAdd);
+    try {
+      await addProduct(productAdd);
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Added Product successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Error adding product. Please try again.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+    addProduct(productAdd);
+  };
   return (
     <div>
       <Dialog>
         <DialogTrigger asChild>
-          <button className="px-4 py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-500 transition-colors duration-300">
+          <button className="px-4 py-2 bg-[#7ED957] text-white rounded-lg hover:bg-[#7ED957] transition-colors duration-300">
             Add Product
           </button>
         </DialogTrigger>
@@ -40,7 +81,7 @@ export default function AddProduct() {
                   Name
                 </Label>
                 <Input
-                  onBlur={(e) => setName(e.target.value)}
+                  onChange={(e) => setName(e.target.value)}
                   id="name"
                   className="col-span-3"
                 />
@@ -50,7 +91,7 @@ export default function AddProduct() {
                   Description
                 </Label>
                 <Input
-                  onBlur={(e) => setDescription(e.target.value)}
+                  onChange={(e) => setDescription(e.target.value)}
                   id="description"
                   className="col-span-3"
                 />
@@ -60,7 +101,7 @@ export default function AddProduct() {
                   Category
                 </Label>
                 <Input
-                  onBlur={(e) => setCategory(e.target.value)}
+                  onChange={(e) => setCategory(e.target.value)}
                   id="category"
                   className="col-span-3"
                 />
@@ -70,7 +111,7 @@ export default function AddProduct() {
                   Brand
                 </Label>
                 <Input
-                  onBlur={(e) => setBrand(e.target.value)}
+                  onChange={(e) => setBrand(e.target.value)}
                   id="brand"
                   className="col-span-3"
                 />
@@ -80,7 +121,7 @@ export default function AddProduct() {
                   Stock Quantity
                 </Label>
                 <Input
-                  onBlur={(e) => setStockQuantity(e.target.value)}
+                  onChange={(e) => setStockQuantity(e.target.value)}
                   id="stockQuantity"
                   className="col-span-3"
                 />
@@ -90,7 +131,7 @@ export default function AddProduct() {
                   Rating
                 </Label>
                 <Input
-                  onBlur={(e) => setRating(e.target.value)}
+                  onChange={(e) => setRating(e.target.value)}
                   id="rating"
                   className="col-span-3"
                 />
@@ -100,7 +141,7 @@ export default function AddProduct() {
                   Price
                 </Label>
                 <Input
-                  onBlur={(e) => setPrice(e.target.value)}
+                  onChange={(e) => setPrice(e.target.value)}
                   id="price"
                   className="col-span-3"
                 />
@@ -110,7 +151,7 @@ export default function AddProduct() {
                   Image Link
                 </Label>
                 <Input
-                  onBlur={(e) => setImage(e.target.value)}
+                  onChange={(e) => setImage(e.target.value)}
                   id="image"
                   className="col-span-3"
                 />
