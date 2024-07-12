@@ -13,7 +13,7 @@ const Navbar = () => {
   const [isTypeAnimationVisible, setIsTypeAnimationVisible] = useState(true);
   const [searchBtnClicked, setSearchBtnClicked] = useState(false);
   const [searchedProducts, setSearchedProducts] = useState([]);
-
+  const [cart, setCart] = useState();
   const handleSearchText = (e) => {
     const searchText = e.target.value;
 
@@ -51,7 +51,7 @@ const Navbar = () => {
     <header>
       {/* Navigation Menu Start */}
       <nav className="flex-no-wrap relative flex w-full items-center justify-between bg-[#FBFBFB] py-2.5 shadow-md shadow-black/5  md:flex-wrap lg:py-2.5">
-        <div className="flex w-full items-center justify-between md:max-w-7xl mx-auto">
+        <div className="flex w-full items-center justify-between md:px-10 mx-auto">
           {/* Collapse Button for Mobile Menu */}
           <button
             onClick={() => setCollapse(!collapse)}
@@ -95,9 +95,6 @@ const Navbar = () => {
               </NavLink>
               <NavLink to="/about" className="navLink">
                 About Us
-              </NavLink>
-              <NavLink to="/contact-us" className="navLink">
-                Contact Us
               </NavLink>
             </ul>
           </div>
@@ -149,7 +146,7 @@ const Navbar = () => {
               </div>
 
               {/* cart */}
-              <Link to={"/cart"} className="inline-block relative">
+              <Link to={"/add-cart"} className="inline-block relative">
                 <CiShoppingCart className="text-2xl" />
                 <span className="w-4 h-4 bg-primary text-white absolute -top-2 -right-2 text-[10px] text-center rounded-full">
                   {mounted ? cart?.length : 0}
