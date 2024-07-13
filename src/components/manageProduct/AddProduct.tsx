@@ -18,15 +18,15 @@ export default function AddProduct() {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
-  const [stockQuantity, setStockQuantity] = useState("");
-  const [rating, setRating] = useState("");
+  const [quantity, setQuantity] = useState(0);
+  const [rating, setRating] = useState(0);
   const [price, setPrice] = useState("");
   const [image, setImage] = useState("");
 
   const [addProduct, { data, isLoading, isError, isSuccess }] =
     useAddProductMutation();
   console.log(isLoading, isSuccess, isError, data);
-  const onSubmit = async (e: FormEvent) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
     const productAdd = {
@@ -34,9 +34,9 @@ export default function AddProduct() {
       description,
       category,
       brand,
-      stockQuantity: Number(stockQuantity),
-      rating: Number(rating),
-      price: Number(price),
+      quantity,
+      rating,
+      price,
       image,
     };
     console.log(productAdd);
@@ -58,8 +58,8 @@ export default function AddProduct() {
         timer: 1500,
       });
     }
-    // addProduct(productAdd);
   };
+
   return (
     <div>
       <Dialog>
@@ -121,8 +121,9 @@ export default function AddProduct() {
                   Stock Quantity
                 </Label>
                 <Input
-                  onChange={(e) => setStockQuantity(e.target.value)}
-                  id="stockQuantity"
+                  onChange={(e) => setQuantity(parseInt(e.target.value))}
+                  type="number"
+                  id="quantity"
                   className="col-span-3"
                 />
               </div>
@@ -131,7 +132,8 @@ export default function AddProduct() {
                   Rating
                 </Label>
                 <Input
-                  onChange={(e) => setRating(e.target.value)}
+                  onChange={(e) => setRating(parseFloat(e.target.value))}
+                  type="number"
                   id="rating"
                   className="col-span-3"
                 />
@@ -142,6 +144,7 @@ export default function AddProduct() {
                 </Label>
                 <Input
                   onChange={(e) => setPrice(e.target.value)}
+                  type="number"
                   id="price"
                   className="col-span-3"
                 />

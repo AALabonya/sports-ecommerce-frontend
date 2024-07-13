@@ -83,6 +83,8 @@ module.exports = {
       "picture-4":
         "url('https://ornaldo.themeftc.com/wp-content/uploads/2022/05/FILEminimizer-3-1.jpg')",
       "about-us": "url('https://htmldemo.net/fitzoon/fitzoon/img/about/1.jpg')",
+      "footer-us":
+        "url('https://demo2.wpthemego.com/themes/sw_himarket/wp-content/themes/himarket/assets/img/banner-cate.jpg')",
     },
   },
   plugins: [require("tailwindcss-animate")],

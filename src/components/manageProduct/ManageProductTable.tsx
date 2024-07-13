@@ -19,7 +19,7 @@ const ManageProductTable = ({
   description,
   category,
   brand,
-  stockQuantity,
+  quantity,
   rating,
   price,
   image,
@@ -64,7 +64,7 @@ const ManageProductTable = ({
         </td>
         <td className="p-4 border-b border-blue-gray-50">
           <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-            {stockQuantity}
+            {quantity}
           </p>
         </td>
         <td className="p-4 border-b border-blue-gray-50">

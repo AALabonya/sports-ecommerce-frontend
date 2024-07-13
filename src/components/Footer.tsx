@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="bg-transparent shadow-2xl shadow-gray-400">
+    <footer className="bg-transparent bg-footer-us bg-cover  shadow-2xl shadow-gray-400">
       <div className="px-10 mx-auto footer p-10 flex flex-col md:flex-row justify-between items-center md:items-start ">
         <aside className="flex flex-col items-center md:items-start">
           <Link to={"/"} className="text-xl font-semibold">
@@ -54,25 +54,25 @@ export default function Footer() {
         </nav>
         <nav className="flex flex-col items-center md:items-start">
           <h6 className="footer-title">Social Links</h6>
-          <ul className="flex flex-row gap-2 footer-links">
+          <ul className="flex flex-row gap-2 mt-1 footer-links ">
             <li>
               <Link to={"/"}>
-                <FaLinkedin className="text-2xl" />
+                <FaLinkedin className="text-3xl text-[#7ED957] bg-white" />
               </Link>
             </li>
             <li>
               <Link to={"/"}>
-                <FaFacebookSquare className="text-2xl" />
+                <FaFacebookSquare className="text-3xl text-[#7ED957] bg-white" />
               </Link>
             </li>
             <li>
               <Link to={"/"}>
-                <FaInstagramSquare className="text-2xl" />
+                <FaInstagramSquare className="text-3xl text-[#7ED957] bg-white" />
               </Link>
             </li>
             <li>
               <Link to={"/"}>
-                <FaTwitterSquare className="text-2xl" />
+                <FaTwitterSquare className="text-3xl text-[#7ED957] bg-white" />
               </Link>
             </li>
           </ul>

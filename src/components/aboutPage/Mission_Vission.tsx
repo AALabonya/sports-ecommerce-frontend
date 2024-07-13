@@ -19,7 +19,7 @@ export default function Mission_Vission() {
               <figure>
                 <h1 className="title lg:text-5xl text-4xl font-bold  ">
                   Our
-                  <span className="text-primary"> Mission</span>
+                  <span className="text-[#7ED957]"> Mission</span>
                 </h1>
                 <p className="py-4 text-slate-900">
                   Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi

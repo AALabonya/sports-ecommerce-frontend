@@ -2,6 +2,7 @@ import AddProduct from "@/components/manageProduct/AddProduct";
 import { useGetAllProductsQuery } from "@/redux/api/baseApi";
 
 import ManageProductTable from "@/components/manageProduct/ManageProductTable";
+import { NavLink } from "react-router-dom";
 export default function ManageProduct() {
   const { data: products, isLoading } = useGetAllProductsQuery(undefined);
   console.log(products);
@@ -15,7 +16,29 @@ export default function ManageProduct() {
   }
   return (
     <>
-      {" "}
+      <div className="mb-16">
+        <div className="bg-cover bg-about-us bg-center">
+          <div className=" md:max-w-screen-2xl mx-auto p-24 justify-center">
+            <h2 className="lg:text-6xl font-bold text-white/90 font-serif text-center">
+              Manage Products
+            </h2>
+            <div className="mt-2 text-center">
+              <NavLink
+                to="/"
+                className=" relative font-medium text-base text-white/90 mx-3"
+              >
+                Home /
+              </NavLink>
+              <NavLink
+                to="/"
+                className="relative font-medium text-base text-white/90"
+              >
+                Manage Product
+              </NavLink>
+            </div>
+          </div>
+        </div>
+      </div>{" "}
       {/* <div className="relative px-10 flex flex-col w-full h-full text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
         <div className="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white rounded-none bg-clip-border">
           <div className="flex items-center justify-between gap-8 mb-8">

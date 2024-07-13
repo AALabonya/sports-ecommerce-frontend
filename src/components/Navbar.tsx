@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useAppSelector } from "@/redux/hooks";
+import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { CiSearch, CiShoppingCart, CiUser } from "react-icons/ci";
 import { FiAlignJustify } from "react-icons/fi";
@@ -13,7 +14,12 @@ const Navbar = () => {
   const [isTypeAnimationVisible, setIsTypeAnimationVisible] = useState(true);
   const [searchBtnClicked, setSearchBtnClicked] = useState(false);
   const [searchedProducts, setSearchedProducts] = useState([]);
-  const [cart, setCart] = useState();
+
+  const cart = useAppSelector((state) => state.cart);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   const handleSearchText = (e) => {
     const searchText = e.target.value;
 

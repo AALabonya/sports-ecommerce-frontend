@@ -9,6 +9,7 @@ import Contact from "../pages/Contact";
 import Home from "../pages/Home";
 import MainLayout from "../components/layout/MainLayout";
 import ManageProduct from "../pages/ManageProduct";
+import SuccessPage from "@/pages/SuccessPage";
 
 const router = createBrowserRouter([
   {
@@ -36,7 +37,7 @@ const router = createBrowserRouter([
         element: <Checkout />,
       },
       {
-        path: "/single-product",
+        path: "product/:productId",
         element: <SingleProduct />,
       },
       {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "/manage-product",
         element: <ManageProduct />,
+      },
+      {
+        path: "/success-page",
+        element: <SuccessPage />,
       },
     ],
   },

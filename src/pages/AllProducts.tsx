@@ -1,73 +1,158 @@
-import { useEffect, useState } from "react";
-
-import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
+import { useState } from "react";
+import { useGetAllProductsQuery } from "@/redux/api/baseApi";
+import Cards from "@/components/card/Cards";
+import { FiAlignJustify } from "react-icons/fi";
+import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { GrPowerReset } from "react-icons/gr";
-import { BsFillGrid3X3GapFill } from "react-icons/bs";
-import { FiAlignJustify } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
-export default function AllProducts() {
-  const [volunteers, setVolunteers] = useState([]);
+const AllProducts = () => {
+  const [selectedSort, setSelectedSort] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedBrand, setSelectedBrand] = useState("all");
+  const [selectedPriceRange, setSelectedPriceRange] = useState("all");
+  const [selectedRating, setSelectedRating] = useState("all");
 
-  const [cardPerPage] = useState(6);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [dataCount, setDataCount] = useState(0);
-  const [search, setSearch] = useState("");
-  const [searchText, setSearchText] = useState("");
-  const [filter, setFilter] = useState("");
-  const [layout, setLayout] = useState(true);
+  // console.log(cate)
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const { data } = await axiosCommon(
-  //       `/totalVolunteers?page=${currentPage}&size=${cardPerPage}&filter=${filter}&search=${search}`
-  //     );
-  //     setVolunteers(data);
-  //   };
-  //   getData();
-  // }, [currentPage, cardPerPage, filter, search]);
-
-  // useEffect(() => {
-  //   const getCount = async () => {
-  //     const { data } = await axiosCommon("/countVolunteers");
-  //     setDataCount(data.count);
-  //   };
-  //   getCount();
-  // }, [axiosCommon]);
-
-  const numOfPages = Math.ceil(dataCount / cardPerPage);
-  const pages = [...Array(numOfPages).keys()].map((ele) => ele + 1);
-
-  const handlePagination = (value) => {
-    setCurrentPage(value);
+  // Function to get minimum price based on selected price range
+  const getMinPrice = (range: string) => {
+    switch (range) {
+      case "under50":
+        return 0;
+      case "50to100":
+        return 50;
+      case "over100":
+        return 100;
+      default:
+        return undefined;
+    }
   };
 
-  const handleFilterByCategory = (e) => {
-    setFilter(e.target.value);
+  // Function to get maximum price based on selected price range
+  const getMaxPrice = (range: string) => {
+    switch (range) {
+      case "under50":
+        return 50;
+      case "50to100":
+        return 100;
+      case "over100":
+        return undefined; // No upper limit
+      default:
+        return undefined;
+    }
   };
 
-  const handleReset = () => {
-    setFilter("");
-    setSearch("");
-    setSearchText("");
-    setLayout(true);
+  // Fetch products based on sort, search term, category, brand, price range, and rating filters
+  const {
+    data: products,
+    isLoading,
+    isError,
+  } = useGetAllProductsQuery({
+    sort: selectedSort,
+    searchTerm: searchTerm,
+    category: selectedCategory !== "all" ? selectedCategory : undefined,
+    brand: selectedBrand !== "all" ? selectedBrand : undefined,
+    minPrice: getMinPrice(selectedPriceRange),
+    maxPrice: getMaxPrice(selectedPriceRange),
+    minRating: selectedRating !== "all" ? parseInt(selectedRating) : undefined,
+  });
+
+  // console.log(selectedCategory,setSelectedCategory,'validate')
+
+  // Handle sorting change
+  const handleSelectChange = (event: { target: { value: any } }) => {
+    const sortValue = event.target.value;
+    setSelectedSort(sortValue);
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setSearch(searchText);
+  // Handle search input change
+  const handleInputChange = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setSearchTerm(event.target.value);
   };
 
-  const handleGridLayout = (p) => {
-    setLayout(p);
-  };
-  const handleTableLayout = (p) => {
-    setLayout(p);
+  // Function to filter products based on selected filters
+  const filterProducts = (products: any) => {
+    let filteredProducts = [...products];
+
+    // Filter by category
+    if (selectedCategory !== "all") {
+      filteredProducts = filteredProducts.filter(
+        (product) => product.category === selectedCategory
+      );
+    }
+
+    // Filter by brand
+    if (selectedBrand !== "all") {
+      filteredProducts = filteredProducts.filter(
+        (product) => product.brand === selectedBrand
+      );
+    }
+
+    // Filter by price range
+    if (selectedPriceRange !== "all") {
+      const minPrice = getMinPrice(selectedPriceRange);
+      const maxPrice = getMaxPrice(selectedPriceRange);
+      filteredProducts = filteredProducts.filter((product) => {
+        const price = product.price; // Adjust this based on your product structure
+        return (
+          (!minPrice || price >= minPrice) && (!maxPrice || price <= maxPrice)
+        );
+      });
+    }
+
+    // Filter by rating
+    if (selectedRating !== "all") {
+      filteredProducts = filteredProducts.filter((product) => {
+        const rating = product.rating; // Adjust this based on your product structure
+        return rating === parseInt(selectedRating); // Adjust for your rating comparison logic
+      });
+    }
+
+    return filteredProducts;
   };
 
+  // Function to sort products based on selected criteria
+  const sortProducts = (products: any[], sortCriteria: string) => {
+    let sortedProducts = [...products];
+
+    switch (sortCriteria) {
+      case "priceAsc":
+        sortedProducts.sort((a, b) => a.price - b.price);
+        break;
+      case "priceDesc":
+        sortedProducts.sort((a, b) => b.price - a.price);
+        break;
+      // Add more cases for additional sorting criteria if needed
+      default:
+        // No sorting or default sorting logic
+        break;
+    }
+
+    return sortedProducts;
+  };
+
+  // Apply filtering and sorting to products based on selected filters and sort
+  const filteredAndSortedProducts = sortProducts(
+    filterProducts(products?.data || []),
+    selectedSort
+  );
+
+  // Handle clear filters
+  const clearFilters = () => {
+    setSelectedCategory("all");
+    setSelectedBrand("all");
+    setSelectedPriceRange("all");
+    setSelectedRating("all");
+    setSearchTerm("");
+    setSelectedSort("all");
+  };
   return (
-    <>
-      <div className="">
+    <div className="min-h-screen">
+      <div className="mb-16">
         <div className="bg-cover bg-about-us bg-center">
           <div className=" md:max-w-screen-2xl mx-auto p-24 justify-center">
             <h2 className="lg:text-6xl font-bold text-white/90 font-serif text-center">
@@ -84,150 +169,140 @@ export default function AllProducts() {
                 to="/"
                 className="relative font-medium text-base text-white/90"
               >
-                All Products
+                Product
               </NavLink>
             </div>
           </div>
         </div>
       </div>
-      //
-      <section className=" max-w-7xl mx-auto mb-12 mt-8">
-        {/* search bar */}
-        <div className="mb-8">
-          <div className="flex flex-col md:flex-row justify-center items-center gap-5 bg-[#955E42] bg-opacity-5 p-4 rounded-3xl">
-            <div>
-              <select
-                onChange={handleFilterByCategory}
-                name="category"
-                value={filter}
-                className="border border-[#955E42] py-1 px-4 rounded-full"
-              >
-                <option value="">Category</option>
-                <option value="Soccer">Soccer</option>
-                <option value="Basketball">Basketball</option>
-                <option value="Baseball">Baseball</option>
-                <option value="Tennis">Tennis</option>
-                <option value="Golf">Golf</option>
-                <option value="Running">Running</option>
-                <option value="Swimming">Swimming</option>
-                <option value="Cycling">Cycling</option>
-                <option value="Hiking">Hiking</option>
-                <option value="Fitness & Gym">Fitness & Gym</option>
-                <option value="Boxing">Boxing</option>
-                <option value="Yoga">Yoga</option>
-                <option value="Skiing">Skiing</option>
-                <option value="Snowboarding">Snowboarding</option>
-                <option value="Fishing">Fishing</option>
-                <option value="Camping">Camping</option>
-                <option value="Surfing">Surfing</option>
-                <option value="Skateboarding">Skateboarding</option>
-                <option value="Badminton">Badminton</option>
-                <option value="Cricket">Cricket</option>
-              </select>
-            </div>
-            <form onSubmit={handleSearch}>
-              <div className="flex p-1 overflow-hidden rounded-full">
-                <input
-                  onChange={(e) => setSearchText(e.target.value)}
-                  value={searchText}
-                  className="py-1 px-4 border border-r-0 border-[#955E42] rounded-l-full outline-none focus:placeholder-transparent"
-                  type="text"
-                  name="search"
-                  placeholder="Name"
-                  aria-label="Name"
-                />
-                <button className="px-4 font-medium border-y border-r border-[#955E42] text-white tracking-wider transition-colors duration-300 transform bg-gray-700 rounded-r-full hover:bg-gray-600">
-                  <FaMagnifyingGlass />
-                </button>
-              </div>
-            </form>
+
+      {/* Search form */}
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className="flex justify-center mb-5"
+      >
+        <input
+          type="text"
+          placeholder="Search by product name"
+          value={searchTerm}
+          onChange={handleInputChange}
+          className="py-1 px-4 border border-r-0 border-[#545454] rounded-l-full outline-none focus:placeholder-transparent"
+        />
+        <button className="px-4 font-medium border-y border-r border-[#545454] text-white tracking-wider transition-colors duration-300 transform bg-[#7ED957] rounded-r-full hover:bg-[#545454]">
+          <FaMagnifyingGlass />
+        </button>
+      </form>
+      <section className="px-4 md:px-0">
+        {/* Filters */}
+        <div className="flex flex-wrap justify-center mb-5">
+          {/* Sort dropdown */}
+          <div className="w-full md:w-auto mb-2 md:mb-0 rounded-full">
+            <select
+              value={selectedSort}
+              onChange={handleSelectChange}
+              className="border border-[#545454] py-2 px-4 w-full md:w-auto rounded-full"
+            >
+              <option value="all">Sort by...</option>
+              <option value="priceAsc">Price: Low to High</option>
+              <option value="priceDesc">Price: High to Low</option>
+              {/* Add more sorting options as needed */}
+            </select>
+          </div>
+
+          {/* Sport filter */}
+          <div className="w-full rounded-full md:w-auto mb-2 md:mb-0">
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="border rounded-full ml-2 border-[#545454] py-2 px-4 w-full md:w-auto"
+            >
+              <option value="all">All Sports</option>
+              <option value="Football">Football</option>
+              <option value="Tennis">Tennis</option>
+              {/* Add more category options as needed */}
+            </select>
+          </div>
+
+          {/* Brand filter */}
+          <div className="w-full md:w-auto mb-2 md:mb-0">
+            <select
+              value={selectedBrand}
+              onChange={(e) => setSelectedBrand(e.target.value)}
+              className="border rounded-full ml-2 border-[#545454]  py-2 px-4 w-full md:w-auto"
+            >
+              <option value="all">All Brands</option>
+              <option value="Nike">Nike</option>
+              <option value="Adidas">Adidas</option>
+              {/* Add more brand options as needed */}
+            </select>
+          </div>
+
+          {/* Price range filter */}
+          <div className="w-full md:w-auto mb-2 md:mb-0">
+            <select
+              value={selectedPriceRange}
+              onChange={(e) => setSelectedPriceRange(e.target.value)}
+              className="border rounded-full ml-2 border-[#545454] py-2 px-4 w-full md:w-auto"
+            >
+              <option value="all">All Prices</option>
+              <option value="under50">Under $50</option>
+              <option value="50to100">$50 - $100</option>
+              <option value="over100">Over $100</option>
+              {/* Add more price range options as needed */}
+            </select>
+          </div>
+
+          {/* Rating filter */}
+          <div className="w-full md:w-auto mb-2 md:mb-0">
+            <select
+              value={selectedRating}
+              onChange={(e) => setSelectedRating(e.target.value)}
+              className="border rounded-full ml-2 border-[#545454] py-2 px-4 w-full md:w-auto"
+            >
+              <option value="all">All Ratings</option>
+              <option value="1">1 Star</option>
+              <option value="2">2 Stars</option>
+              <option value="3">3 Stars</option>
+              <option value="4">4 Stars</option>
+              <option value="5">5 Stars</option>
+              {/* Add more rating options as needed */}
+            </select>
+          </div>
+
+          {/* Clear filters button */}
+          <div className="w-full md:w-auto mb-2 md:mb-0">
             <button
-              onClick={handleReset}
-              className="flex items-center gap-1 px-4 border border-[#955E42] font-medium tracking-wider text-white uppercase transition-colors duration-300 transform bg-gray-700 rounded-full hover:bg-gray-600 py-1"
+              className="flex items-center gap-1 px-4 ml-2 py-2 border border-[#545454] font-medium tracking-wider text-white uppercase transition-colors duration-300 transform bg-[#7ED957] rounded-full hover:bg-[#545454]"
+              onClick={clearFilters}
             >
               <GrPowerReset /> <span>Reset</span>
             </button>
-            <div className="lg:w-1/6 flex justify-end gap-4">
-              <button
-                onClick={() => handleGridLayout(true)}
-                className={`text-2xl ${layout ? "text-[#955E42]" : ""}`}
-              >
-                <BsFillGrid3X3GapFill />
-              </button>
-              <button
-                onClick={() => handleTableLayout(false)}
-                className={`text-3xl ${layout ? "" : "text-[#955E42]"}`}
-              >
-                <FiAlignJustify />
-              </button>
-            </div>
           </div>
         </div>
-
-        {/* {`text-2xl ${layout && "text-[#8cbd51]"}`} */}
-
-        {volunteers.length ? (
-          <div>
-            <div className="lg:px-0 px-2">
-              {layout ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  card view
-                </div>
-              ) : (
-                <div className="overflow-x-auto">
-                  <table className="table">
-                    <thead>
-                      <tr className="text-base">
-                        <th></th>
-                        <th>Post Title</th>
-                        <th>Category</th>
-                        <th>No. of Volunteer</th>
-                        <th>Deadline</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>table</tbody>
-                  </table>
-                </div>
-              )}
-
-              {/* pagination */}
-              <div className="flex justify-center mt-12">
-                {/* prev btn */}
-                <button
-                  disabled={currentPage === 1}
-                  onClick={() => handlePagination(currentPage - 1)}
-                  className="disabled:cursor-not-allowed text-2xl transition-colors duration-300 transform mr-8 hover:text-[#955E42]"
-                >
-                  <FaArrowAltCircleLeft />
-                </button>
-                {/* numbers */}
-                {pages.map((btnNumber) => (
-                  <button
-                    onClick={() => handlePagination(btnNumber)}
-                    key={btnNumber}
-                    className={`${
-                      currentPage === btnNumber ? "bg-[#80a058] text-white" : ""
-                    } px-6 py-1 mx-1 transition-colors duration-300 transform rounded-full sm:inline hover:bg-[#748E54] font-bold hover:text-white`}
-                  >
-                    {btnNumber}
-                  </button>
-                ))}
-                {/* next btn */}
-                <button
-                  disabled={currentPage === numOfPages}
-                  onClick={() => handlePagination(currentPage + 1)}
-                  className="disabled:cursor-not-allowed text-2xl sm:inline transition-colors duration-300 transform ml-8 hover:text-[#955E42]"
-                >
-                  <FaArrowAltCircleRight />
-                </button>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="flex items-center justify-center">set animation</div>
-        )}
       </section>
-    </>
+      {/* Product list */}
+      <div className="mx-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-5">
+        {isLoading ? (
+          <p className="text-2xl text-black flex justify-center items-center">
+            {/* <Extra></Extra> */}
+            Loading......
+          </p>
+        ) : isError ? (
+          <p className="text-2xl text-red-500 flex justify-center items-center">
+            Error loading products
+          </p>
+        ) : filteredAndSortedProducts.length === 0 ? (
+          <p className="text-2xl text-black flex justify-center items-center">
+            No products found
+          </p>
+        ) : (
+          filteredAndSortedProducts.map((product) => (
+            <Cards key={product._id} product={product} />
+          ))
+        )}
+      </div>
+    </div>
   );
-}
+};
+
+export default AllProducts;
