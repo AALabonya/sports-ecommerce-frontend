@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useAppSelector } from "@/redux/hooks";
 import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
@@ -11,9 +12,8 @@ import { TypeAnimation } from "react-type-animation";
 const Navbar = () => {
   const [collapse, setCollapse] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [isTypeAnimationVisible, setIsTypeAnimationVisible] = useState(true);
+  const [isTypeAnimationVisible] = useState(true);
   const [searchBtnClicked, setSearchBtnClicked] = useState(false);
-  const [searchedProducts, setSearchedProducts] = useState([]);
 
   const cart = useAppSelector((state) => state.cart.items);
   console.log("carttttt", cart);
@@ -21,36 +21,8 @@ const Navbar = () => {
   useEffect(() => {
     setMounted(true);
   }, []);
-  const handleSearchText = (e) => {
-    const searchText = e.target.value;
-
-    if (searchText.length > 0) {
-      fetch(
-        `https://bazar-zone-server.vercel.app/products/search/${searchText}`
-      )
-        .then((res) => res.json())
-        .then((data) => setSearchedProducts(data));
-    } else {
-      setSearchedProducts([]);
-    }
-
-    if (searchText.length > 0) {
-      setIsTypeAnimationVisible(false);
-    } else {
-      setIsTypeAnimationVisible(true);
-    }
-  };
-
-  //submit search
-  const handleSearch = (e) => {
-    e.preventDefault();
-
-    const searchText = e.target.text.value;
-  };
-
-  const handleSearchResultClicked = () => {
-    setSearchBtnClicked(false);
-    setSearchedProducts([]);
+  const handleSearchText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e);
   };
 
   return (
@@ -122,7 +94,6 @@ const Navbar = () => {
                   )}
                 </button>
                 <form
-                  onSubmit={handleSearch}
                   className={`search-form w-60 z-50 flex absolute right-1/4 duration-200 text-[#7ED957] ${
                     searchBtnClicked
                       ? "-bottom-[90%] opacity-100"

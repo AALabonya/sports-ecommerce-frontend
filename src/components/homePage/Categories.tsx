@@ -75,7 +75,7 @@ export default function Categories() {
             you.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-10 ">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10 ">
           <NavLink to={"/"} className="flex flex-col items-center space-y-4">
             <div className=" border-2 border-green-400 hover:border-green text-green-500 hover:text-green duration-300 rounded-full size-32 flex justify-center items-center cursor-pointer">
               <MdOutlineSportsTennis className="text-6xl" />

@@ -10,11 +10,13 @@ import Home from "../pages/Home";
 import MainLayout from "../components/layout/MainLayout";
 import ManageProduct from "../pages/ManageProduct";
 import SuccessPage from "@/pages/SuccessPage";
+import ErrorHandler from "@/pages/ErrorHandler";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <ErrorHandler />,
     children: [
       {
         path: "/",

@@ -12,10 +12,14 @@ export type TOrder = {
   email: string;
   phone: string;
   deliveryAddress: string;
-  productId: string;
-  quantity: number;
+  products: {
+    productId: string;
+    quantity: number;
+  }[];
+
   paymentMethod: string;
 };
+
 const Checkout = () => {
   const cart = useAppSelector((state) => state.cart.items);
   const [userDetails, setUserDetails] = useState({
@@ -44,19 +48,21 @@ const Checkout = () => {
   };
 
   const handlePlaceOrder = async () => {
+    const products = cart.map((item) => ({
+      productId: item.productId,
+      quantity: item.quantity,
+    }));
     const order: TOrder = {
       userName: userDetails.userName,
       email: userDetails.email,
       phone: userDetails.phone,
       deliveryAddress: userDetails.deliveryAddress,
-      productId: cart[0].productId,
-      quantity: cart[0].quantity,
+      products,
       paymentMethod,
     };
-
     try {
-      const { data } = await createOrder(order).unwrap();
-      dispatch(clearOrderedItems(cart[0].productId));
+      await createOrder(order).unwrap();
+      dispatch(clearOrderedItems());
       Swal.fire({
         position: "top-end",
         icon: "success",
@@ -152,7 +158,7 @@ const Checkout = () => {
                     <input
                       type="text"
                       value={paymentMethod}
-                      onChange={(e) => setPaymentMethod("Cash On Delivery")}
+                      onChange={() => setPaymentMethod("Cash On Delivery")}
                       placeholder="Cash On Delivery"
                       className="block w-full px-5 py-2.5 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-[#7ED957] rounded-lg"
                     />
