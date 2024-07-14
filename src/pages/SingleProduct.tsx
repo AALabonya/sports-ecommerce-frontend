@@ -1,14 +1,13 @@
 import { useGetProductByIdQuery } from "@/redux/api/baseApi"; // Adjust path as per your project structure
 import { addToCart } from "@/redux/feature/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { Link, useParams } from "react-router-dom";
-import "react-image-gallery/styles/css/image-gallery.css";
-import ImageGallery from "react-image-gallery";
+import { useParams } from "react-router-dom";
 import Rating from "react-rating";
 import { CiFacebook, CiInstagram, CiTwitter } from "react-icons/ci";
 import Swal from "sweetalert2";
-const SingleProduct = () => {
-  const { productId } = useParams();
+
+const SingleProduct: React.FC = () => {
+  const { productId } = useParams<{ productId: string }>();
   const {
     data: product,
     isLoading,
@@ -20,20 +19,24 @@ const SingleProduct = () => {
   const cartItem = cart.find((item) => item.productId === productId);
 
   const handleAddToCart = () => {
-    // Implement add to cart functionality
-    // Example logic: dispatch an action to add product to cart state
-    //will dispatch
-
-    if (product) {
+    if (cartItem) {
+      Swal.fire({
+        position: "top-end",
+        icon: "info",
+        title: "Product already in cart",
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    } else if (product) {
       dispatch(addToCart({ product: product.data }));
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Cart added successfully!",
+        showConfirmButton: false,
+        timer: 2500,
+      });
     }
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: "Cart added successfully!",
-      showConfirmButton: false,
-      timer: 1500,
-    });
   };
 
   if (isLoading) return <div className="text-center mt-8">Loading...</div>;
@@ -51,16 +54,10 @@ const SingleProduct = () => {
 
   return (
     <>
-      <section className="flex justify-center mt-12">
+      <section className="container lg:px-24 mt-12">
         <div className="flex flex-col md:flex-row gap-6 md:gap-12 pb-12">
-          <img src={product.data.image} alt="" />
-          {/* image gallery */}
-          {/* <ProductImages product={product} /> */}
-          {/* <ImageGallery showPlayButton={false} showNav={false}>
-            {" "}
-            
-          </ImageGallery> */}
-          {/* product details */}
+          <img src={product.data.image} alt="" className=" w-2/4" />
+
           <div className="space-y-3">
             <div className="flex items-center gap-4 text-xs">
               {product?.stock > 40 ? (
@@ -72,12 +69,12 @@ const SingleProduct = () => {
                   Low Stock
                 </p>
               )}
-              <span>{product?.data?.quantity} Items</span>
+              <span>{product?.data?.quantity} Available Stock</span>
             </div>
             <h2 className="text-2xl md:text-3xl font-semibold">
-              Title: {product?.data?.name}
+              {product?.data?.name}
             </h2>
-            Rating:{" "}
+            Rating:
             <Rating
               emptySymbol={
                 <svg
@@ -100,13 +97,22 @@ const SingleProduct = () => {
               initialRating={product.data.rating}
               readonly
             />
-            <p className="flex items-center gap-2">
+            <p className=" items-center">
               Price:{" "}
               <span className="text-xl md:text-2xl font-semibold">
                 ${product?.data?.price}
               </span>
             </p>
-            <div className="font-normal py-5 space-y-3">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span>Sizes:</span>
+              <div>
+                <span className="underline">S</span>
+                <span className="ml-1 underline">M</span>
+                <span className="ml-1 underline">L</span>
+                <span className="ml-1 underline">XL</span>
+              </div>
+            </div>
+            <div className="font-normal space-y-3">
               <p className="flex gap-8">
                 Category:{" "}
                 <span className="uppercase">{product?.data?.category}</span>
@@ -136,7 +142,7 @@ const SingleProduct = () => {
               <button
                 onClick={handleAddToCart}
                 disabled={isButtonDisabled}
-                className="px-4 py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-500 transition-colors duration-300"
+                className="px-4 py-2 bg-[#7ED957] text-white rounded-lg hover:bg-gray-500 transition-colors duration-300"
               >
                 {isButtonDisabled ? "Out of Stock" : "Add to Cart"}
               </button>

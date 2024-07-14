@@ -15,7 +15,8 @@ const Navbar = () => {
   const [searchBtnClicked, setSearchBtnClicked] = useState(false);
   const [searchedProducts, setSearchedProducts] = useState([]);
 
-  const cart = useAppSelector((state) => state.cart);
+  const cart = useAppSelector((state) => state.cart.items);
+  console.log("carttttt", cart);
 
   useEffect(() => {
     setMounted(true);
@@ -114,11 +115,15 @@ const Navbar = () => {
                   className="text-[28px] mt-2 hover:text-primary duration-150"
                   onClick={() => setSearchBtnClicked(!searchBtnClicked)}
                 >
-                  {searchBtnClicked ? <HiOutlineXMark /> : <CiSearch />}
+                  {searchBtnClicked ? (
+                    <HiOutlineXMark />
+                  ) : (
+                    <CiSearch className="text-[#7ED957]" />
+                  )}
                 </button>
                 <form
                   onSubmit={handleSearch}
-                  className={`search-form w-60 z-50 flex absolute right-1/4 duration-200 ${
+                  className={`search-form w-60 z-50 flex absolute right-1/4 duration-200 text-[#7ED957] ${
                     searchBtnClicked
                       ? "-bottom-[90%] opacity-100"
                       : "-bottom-[130%] opacity-0 pointer-events-none"
@@ -128,7 +133,7 @@ const Navbar = () => {
                     onChange={(e) => handleSearchText(e)}
                     type="text"
                     name="text"
-                    className="w-[80%] bg-[color:var(--bg-primary)] shadow-md border border-slate-100 px-3 py-1 rounded-l-sm outline-none"
+                    className="w-[80%] bg-white shadow-md border border-slate-100 px-3 py-1 rounded-l-sm outline-none"
                   />
 
                   <div
@@ -146,15 +151,15 @@ const Navbar = () => {
                   </div>
 
                   <button className="w-[20%]" type="submit">
-                    <CiSearch className="text-xl p-2 w-full bg-secondary hover:bg-primary text-white h-10 duration-150  rounded-r-sm" />
+                    <CiSearch className="text-xl p-2 w-full bg-[#7ED957] hover:bg-[#7ED957] bg-pri text-white h-10 duration-150  rounded-r-sm" />
                   </button>
                 </form>
               </div>
 
               {/* cart */}
               <Link to={"/add-cart"} className="inline-block relative">
-                <CiShoppingCart className="text-2xl" />
-                <span className="w-4 h-4 bg-primary text-white absolute -top-2 -right-2 text-[10px] text-center rounded-full">
+                <CiShoppingCart className="text-3xl" />
+                <span className="w-5 h-5 bg-[#7ED957] text-white absolute font-bold -top-2 -right-2 text-[12px] text-center rounded-full">
                   {mounted ? cart?.length : 0}
                 </span>
               </Link>

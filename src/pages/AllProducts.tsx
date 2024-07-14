@@ -1,8 +1,7 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { SetStateAction, useState } from "react";
 import { useGetAllProductsQuery } from "@/redux/api/baseApi";
 import Cards from "@/components/card/Cards";
-import { FiAlignJustify } from "react-icons/fi";
-import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { GrPowerReset } from "react-icons/gr";
 import { NavLink } from "react-router-dom";
@@ -117,7 +116,7 @@ const AllProducts = () => {
 
   // Function to sort products based on selected criteria
   const sortProducts = (products: any[], sortCriteria: string) => {
-    let sortedProducts = [...products];
+    const sortedProducts = [...products];
 
     switch (sortCriteria) {
       case "priceAsc":
@@ -217,8 +216,18 @@ const AllProducts = () => {
               className="border rounded-full ml-2 border-[#545454] py-2 px-4 w-full md:w-auto"
             >
               <option value="all">All Sports</option>
-              <option value="Football">Football</option>
-              <option value="Tennis">Tennis</option>
+              <option value="fitness">Fitness</option>
+              <option value="football">Football</option>
+              <option value="accessories">Accessories</option>
+              <option value="running">Running</option>
+              <option value="soccer">Soccer</option>
+              <option value="tennis">Tennis</option>
+              <option value="basketball">Basketball</option>
+              <option value="cycling">Cycling</option>
+              <option value="golf">Golf</option>
+              <option value="swimming">Swimming</option>
+              <option value="cricket">Cricket</option>
+              <option value="badminton">Badminton</option>
               {/* Add more category options as needed */}
             </select>
           </div>
@@ -231,8 +240,18 @@ const AllProducts = () => {
               className="border rounded-full ml-2 border-[#545454]  py-2 px-4 w-full md:w-auto"
             >
               <option value="all">All Brands</option>
-              <option value="Nike">Nike</option>
-              <option value="Adidas">Adidas</option>
+              <option value="nike">Nike</option>
+              <option value="adidas">Adidas</option>
+              <option value="puma">Puma</option>
+              <option value="under-armour">Under Armour</option>
+              <option value="reebok">Reebok</option>
+              <option value="asics">Asics</option>
+              <option value="new-balance">New Balance</option>
+              <option value="fila">Fila</option>
+              <option value="mizuno">Mizuno</option>
+              <option value="salomon">Salomon</option>
+              <option value="oakley">Oakley</option>
+              <option value="umbro">Umbro</option>
               {/* Add more brand options as needed */}
             </select>
           </div>

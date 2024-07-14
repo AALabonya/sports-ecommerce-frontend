@@ -1,14 +1,14 @@
+import { Button } from "@/components/ui/button";
 import { removeFromCart, updateQuantity } from "@/redux/feature/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { NavLink, useNavigate } from "react-router-dom";
+import { AiFillDelete } from "react-icons/ai";
+import { NavLink } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const Cart = () => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart.items);
   console.log("carttttt", cart);
-
-  const navigate = useNavigate();
 
   const handleRemove = (productId: string) => {
     dispatch(removeFromCart(productId));
@@ -32,31 +32,34 @@ const Cart = () => {
     });
   };
 
-  const calculateTotal = () => {
-    return (
-      cart.reduce((total, item) => {
-        return total + item.product.price * item.quantity;
-      }, 0) * 1.15
-    ); // Including 15% VAT
+  const calculateSubtotal = () => {
+    return cart.reduce(
+      (total, item) => total + item.product.price * item.quantity,
+      0
+    );
   };
 
-  const handleCheckout = (productId?: string) => {
-    if (productId) {
-      navigate(`/check-out?productId=${productId}`);
-    } else {
-      if (cart.every((item) => item.product.quantity >= item.quantity)) {
-        navigate("/check-out");
-      } else {
-        Swal.fire({
-          position: "top-end",
-          icon: "error",
-          title: "Some items are out of stock!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-    }
-  };
+  const subtotal = calculateSubtotal();
+  const vat = subtotal * 0.15;
+  const total = subtotal + vat;
+
+  // const handleCheckout = (productId?: string) => {
+  //   if (productId) {
+  //     navigate(`/check-out?productId=${productId}`);
+  //   } else {
+  //     if (cart.every((item) => item.product.quantity >= item.quantity)) {
+  //       navigate("/check-out");
+  //     } else {
+  //       Swal.fire({
+  //         position: "top-end",
+  //         icon: "error",
+  //         title: "Some items are out of stock!",
+  //         showConfirmButton: false,
+  //         timer: 1500,
+  //       });
+  //     }
+  //   }
+  // };
 
   return (
     <>
@@ -83,16 +86,23 @@ const Cart = () => {
           </div>
         </div>
       </div>
-      <div className="min-h-screen mb-5 rounded-2xl bg-gray-100 flex flex-col items-center py-10">
+      <div className="min-h-screen mb-5 flex rounded-2xl bg-gray-100  flex-col items-center py-10">
         <h1 className="text-3xl font-medium mb-8">Cart</h1>
-        <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6">
+        <div className="w-full flex justify-between max-w-7xl  rounded-lg shadow-lg p-6">
           {cart.length > 0 ? (
-            <ul className="space-y-6">
+            <ul className="space-y-6 ">
               {cart.map((item) => (
                 <li
                   key={item.productId}
-                  className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow"
+                  className="flex justify-between items-center gap-10 bg-gray-50 p-4 rounded-lg shadow"
                 >
+                  <div>
+                    <img
+                      src={item.product.image}
+                      alt={item.product.name}
+                      className="w-20 h-20 object-cover rounded-lg"
+                    />
+                  </div>
                   <div>
                     <h2 className="text-lg font-semibold">
                       {item.product.name}
@@ -112,6 +122,7 @@ const Cart = () => {
                         -
                       </button>
                       <span className="px-4">{item.quantity}</span>
+
                       <button
                         onClick={() =>
                           handleQuantityChange(
@@ -125,27 +136,23 @@ const Cart = () => {
                         +
                       </button>
                     </div>
-                    <div className="mt-2 flex gap-2">
-                      <button
-                        onClick={() => handleRemove(item.productId)}
-                        className="px-4 py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-500 transition-colors duration-300"
-                      >
-                        Remove
-                      </button>
-                      <button
-                        onClick={() => handleCheckout(item.productId)}
-                        className="px-4 py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-500 transition-colors duration-300"
-                      >
-                        Order This Item
-                      </button>
-                    </div>
+                    <p>
+                      Calculation: ${item.product?.price}{" "}
+                      <span className="font-normal text-xs">
+                        *{item.quantity}
+                      </span>{" "}
+                    </p>
+                    <p className="text-xs md:text-sm">
+                      Subtotal: ${item.product?.price * item.quantity}
+                    </p>
                   </div>
-                  <div>
-                    <img
-                      src={item.product.image}
-                      alt={item.product.name}
-                      className="w-20 h-20 object-cover rounded-lg"
-                    />
+                  <div className="mt-2 flex gap-2">
+                    <button
+                      onClick={() => handleRemove(item.productId)}
+                      className="text-red-600 text-3xl flex justify-center"
+                    >
+                      <AiFillDelete className="text-red-600 text-3xl flex justify-center" />
+                    </button>
                   </div>
                 </li>
               ))}
@@ -154,19 +161,31 @@ const Cart = () => {
             <p className="text-center text-gray-500">Your cart is empty.</p>
           )}
           {cart.length > 0 && (
-            <div className="mt-8">
-              <h2 className="text-xl font-medium">
-                Total: ${calculateTotal().toFixed(2)}
+            <div className="space-y-8 flex flex-col p-10 border-2">
+              <h2 className="text-2xl font-oswald tracking-wider">
+                Cart Total
               </h2>
-              <button
-                onClick={() => handleCheckout()}
-                disabled={cart.some(
-                  (item) => item.product.quantity < item.quantity
-                )}
-                className="px-4 py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-500 transition-colors duration-300"
-              >
-                Proceed to Checkout
-              </button>
+              <p className="opacity-75">
+                {cart.length} item{cart.length > 1 ? "s" : ""} (Total Quantity:{" "}
+                {cart.reduce((acc, item) => acc + item.quantity, 0)})
+              </p>
+
+              <p className="tracking-wider flex justify-between">
+                <strong>Subtotal: </strong> <span>${subtotal.toFixed(2)}</span>
+              </p>
+              <p className="tracking-wider flex justify-between">
+                <strong>VAT 15%: </strong> <span>${vat.toFixed(2)}</span>
+              </p>
+
+              <p className="tracking-wider flex justify-between">
+                <strong>Total: </strong> <span>${total.toFixed(2)}</span>
+              </p>
+
+              <NavLink to={"/check-out"} className="w-full">
+                <Button className="bg-green-500 w-full">
+                  PROCEED TO CHECKOUT
+                </Button>
+              </NavLink>
             </div>
           )}
         </div>

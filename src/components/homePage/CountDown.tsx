@@ -1,9 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
+interface CountdownProps {
+  targetDate: string;
+}
+const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
+  // Define the expected structure of timeLeft
 
-const Countdown = ({ targetDate }) => {
   const calculateTimeLeft = () => {
     const difference = +new Date(targetDate) - +new Date();
-    let timeLeft = {};
+    let timeLeft: Record<string, any> = {
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    };
 
     if (difference > 0) {
       timeLeft = {
@@ -27,20 +37,21 @@ const Countdown = ({ targetDate }) => {
     return () => clearTimeout(timer);
   });
 
-  const timerComponents = [];
+  const timerComponents: JSX.Element[] = [];
 
   Object.keys(timeLeft).forEach((interval) => {
-    if (!timeLeft[interval]) {
+    const value = timeLeft[interval];
+    if (!value) {
       return;
     }
 
     timerComponents.push(
       <span
         key={interval}
-        className="bg-[#7ED957] text-white shadow-xl h-20 px-10 rounded-xl text-2xl font-bold flex flex-col  justify-end items-center"
+        className="bg-[#7ED957] text-white shadow-xl h-20 px-10 rounded-xl text-2xl font-bold flex flex-col justify-end items-center"
       >
-        <h1 className="text-3xl font-bold"> {timeLeft[interval]}</h1>
-        <h1 className="text-lg">{interval} </h1>
+        <h1 className="text-3xl font-bold">{value}</h1>
+        <h1 className="text-lg">{interval}</h1>
       </span>
     );
   });
@@ -52,7 +63,7 @@ const Countdown = ({ targetDate }) => {
   );
 };
 
-const BestDeal = () => {
+const BestDeal: React.FC = () => {
   const targetDate = new Date("2024-12-12T00:00:00");
 
   return (
@@ -74,7 +85,7 @@ const BestDeal = () => {
         <h1 className="text-6xl font-bold text-center text-white">
           Grab the best Offer Of <br /> this Week!
         </h1>
-        <Countdown targetDate={targetDate} />
+        <Countdown targetDate={targetDate.toISOString()} />
       </div>
     </div>
   );

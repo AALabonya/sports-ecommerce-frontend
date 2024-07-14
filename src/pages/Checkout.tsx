@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useCreateOrderMutation } from "@/redux/api/baseApi";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { clearOrderedItems } from "@/redux/feature/cartSlice";
 import Swal from "sweetalert2";
 
@@ -78,56 +78,102 @@ const Checkout = () => {
   };
 
   return (
-    <div className="min-h-screen mb-5 rounded-2xl bg-gray-100 flex flex-col justify-center items-center">
-      <h1 className="text-3xl font-bold mb-8">Checkout</h1>
-      <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
-        <input
-          type="text"
-          name="userName"
-          value={userDetails.userName}
-          onChange={handleChange}
-          placeholder="Name"
-          className="input-field mb-4"
-        />
-        <input
-          type="email"
-          name="email"
-          value={userDetails.email}
-          onChange={handleChange}
-          placeholder="Email"
-          className="input-field mb-4"
-        />
-        <input
-          type="tel"
-          name="phone"
-          value={userDetails.phone}
-          onChange={handleChange}
-          placeholder="Phone"
-          className="input-field mb-4"
-        />
-        <textarea
-          name="deliveryAddress"
-          value={userDetails.deliveryAddress}
-          onChange={handleChange}
-          placeholder="Delivery Address"
-          className="input-field mb-4"
-        />
-        <input
-          type="text"
-          // defaultValue={Cash On dDelivery}
-          value={paymentMethod}
-          onChange={(e) => setPaymentMethod("Cash On Delivery")}
-          placeholder="Cash On Delivery"
-          className="input-field mb-4"
-        />
-        <button
-          onClick={handlePlaceOrder}
-          className="px-4 py-2  bg-gray-300 text-black rounded-lg hover:bg-gray-500 transition-colors duration-300"
-        >
-          Place Order
-        </button>
+    <>
+      <div className="">
+        <div className="bg-cover bg-about-us bg-center">
+          <div className=" md:max-w-screen-2xl mx-auto p-24 justify-center">
+            <h2 className="lg:text-6xl font-bold text-white/90 font-serif text-center">
+              CheckOut
+            </h2>
+            <div className="mt-2 text-center">
+              <NavLink
+                to="/"
+                className=" relative font-medium text-base text-white/90 mx-3"
+              >
+                Home /
+              </NavLink>
+              <NavLink
+                to="/"
+                className="relative font-medium text-base text-white/90"
+              >
+                Checkout
+              </NavLink>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+
+      <div className="container mb-5 rounded-2xl bg-gray-100 flex justify-evenly items-center py-5">
+        <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
+          <h2 className="text-xl text-center font-semibold text-gray-900">
+            Delivery Details
+          </h2>
+          <input
+            type="text"
+            name="userName"
+            value={userDetails.userName}
+            onChange={handleChange}
+            placeholder="Name"
+            className="block w-full px-5 py-2.5 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-[#7ED957] rounded-lg"
+          />
+          <input
+            type="email"
+            name="email"
+            value={userDetails.email}
+            onChange={handleChange}
+            placeholder="Email"
+            className="block w-full px-5 py-2.5 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-[#7ED957] rounded-lg"
+          />
+          <input
+            type="tel"
+            name="phone"
+            value={userDetails.phone}
+            onChange={handleChange}
+            placeholder="Phone"
+            className="block w-full px-5 py-2.5 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-[#7ED957] rounded-lg"
+          />
+          <textarea
+            name="deliveryAddress"
+            value={userDetails.deliveryAddress}
+            onChange={handleChange}
+            placeholder="Delivery Address"
+            className="block w-full px-5 py-2.5 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-[#7ED957] rounded-lg"
+          />
+        </div>
+        <div>
+          <div className="mt-6 w-full space-y-6 sm:mt-8 lg:mt-0 lg:max-w-xs xl:max-w-md">
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold text-gray-900">Payment</h3>
+              <div className="grid grid-cols-1 gap-4">
+                <div className="rounded-lg border p-4 px-4">
+                  <div className=" gap-2">
+                    <input
+                      type="text"
+                      value={paymentMethod}
+                      onChange={(e) => setPaymentMethod("Cash On Delivery")}
+                      placeholder="Cash On Delivery"
+                      className="block w-full px-5 py-2.5 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-[#7ED957] rounded-lg"
+                    />
+                  </div>
+                  <p className="mt-1 text-xs font-normal text-gray-500">
+                    You can use bKash or Nagad
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="space-y-3">
+              <button
+                type="submit"
+                className="w-full bg-[#7ED957] text-white py-2 px-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                onClick={handlePlaceOrder}
+              >
+                Proceed to Payment
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

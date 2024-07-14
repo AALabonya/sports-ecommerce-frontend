@@ -1,3 +1,6 @@
+import { FaBasketball } from "react-icons/fa6";
+import { GiBaseballGlove } from "react-icons/gi";
+
 export default function Story() {
   return (
     <div className="grid grid-cols-1 xl:grid-cols-2 my-24 gap-12 xl:h-[600px] xl:pl-3">
@@ -8,23 +11,24 @@ export default function Story() {
           className="w-full h-full object-cover"
         />
         <div
-          className="absolute w-full md:w-[280px] h-[170px] -bottom-5 lg:-bottom-10 lg:-right-20 bg-[#fefefe] rounded-lg
-          flex flex-col p-12 text-[18px] font-semibold text-[#2b3940] tracking-wide shadow-2xl"
+          className="absolute w-full md:w-[280px] h-[170px] -bottom-5 lg:-bottom-10 lg:-right-20 bg-[#7ED957] rounded-lg
+          flex flex-col p-5 text-[18px] font-semibold text-[#2b3940] tracking-wide shadow-2xl border-8 border-white"
         >
-          <div className="space-x-2">
+          <div className="space-x-2 bg-[#7ED957]">
             <span className="">
-              <span className=" text-2xl">In</span>formation
+              <span className=" text-2xl">In </span>House
             </span>{" "}
-            <span className="text-xl text-red-500">290+</span>
-            <span>Jobs</span>
+            <span className="text-xl text-white font-bold">500000+</span>
+            <span>Product</span>
           </div>
-          <div className="flex  mt-2 items-center justify-between">
+          <div className="flex  mt-2 mb-3 items-center justify-between">
             <div className="flex space-x-1">
-              <img className="h-8 w-8" src="/company1.png" alt="" />
-              <img className="h-8 w-8" src="/company2.png" alt="" />
+              <GiBaseballGlove className="text-2xl text-white" />
             </div>
+            <FaBasketball className="h-5 w-5 text-3xl text-white" />
             <span className="text-[#2b3940] text-[16px] tracking-wider">
-              <span className="text-lg">+14</span> Giants
+              <span className="text-lg text-white font-bold">+400000</span>{" "}
+              Delivered
             </span>
           </div>
         </div>
@@ -47,15 +51,15 @@ export default function Story() {
         <div className="text-[#323f46] text-lg md:text-xl font-semibold tracking-wide space-y-2">
           <div className="flex space-x-4 items-center">
             <img className="w-6 h-6" src="/tick.png" alt="" />
-            <span>Bring to the table win-win survival</span>
+            <span>Empower Your Active Lifestyle</span>
           </div>
           <div className="flex space-x-4">
             <img className="w-6 h-6" src="/tick.png" alt="" />
-            <span>Capitalize on low hanging fruit to identify</span>
+            <span>Seamless Shopping Experience</span>
           </div>
           <div className="flex space-x-4">
             <img className="w-6 h-6" src="/tick.png" alt="" />
-            <span>But I must explain to you how all this</span>
+            <span>Exclusive Offers and Updates</span>
           </div>
         </div>
       </div>

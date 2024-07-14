@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Dialog,
@@ -22,22 +23,34 @@ type FormData = {
   description: string;
   category: string;
   brand: string;
-  stockQuantity: string;
+  quantity: string;
   rating: string;
   price: string;
   image: string;
 };
 
-const UpdateProduct = ({ productId }) => {
+type UpdatedProductData = {
+  name?: string;
+  description?: string;
+  category?: string;
+  brand?: string;
+  quantity?: number;
+  rating?: number;
+  price?: number;
+  image?: string;
+};
+
+const UpdateProduct = ({ productId }: { productId: string }) => {
   const { data: productData } = useGetProductByIdQuery(productId);
   const [updateProduct, { isLoading }] = useUpdateProductMutation();
+  console.log(isLoading);
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
     description: "",
     category: "",
     brand: "",
-    stockQuantity: "",
+    quantity: "",
     rating: "",
     price: "",
     image: "",
@@ -50,9 +63,7 @@ const UpdateProduct = ({ productId }) => {
         description: productData.description || "",
         category: productData.category || "",
         brand: productData.brand || "",
-        stockQuantity: productData.stockQuantity
-          ? productData.stockQuantity.toString()
-          : "",
+        quantity: productData.quantity ? productData.quantity.toString() : "",
         rating: productData.rating ? productData.rating.toString() : "",
         price: productData.price ? productData.price.toString() : "",
         image: productData.image || "",
@@ -60,7 +71,9 @@ const UpdateProduct = ({ productId }) => {
     }
   }, [productData]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { id, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -71,18 +84,17 @@ const UpdateProduct = ({ productId }) => {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     const updatedProduct = Object.keys(formData).reduce((acc, key) => {
-      const value = formData[key as keyof FormData];
+      const formKey = key as keyof FormData;
+      const value = formData[formKey];
+
       if (value) {
-        acc[key as keyof FormData] = [
-          "stockQuantity",
-          "rating",
-          "price",
-        ].includes(key)
+        (acc as any)[formKey] = ["quantity", "rating", "price"].includes(key)
           ? Number(value)
           : value;
       }
+
       return acc;
-    }, {} as Partial<FormData>);
+    }, {} as UpdatedProductData);
 
     updateProduct({ id: productId, data: updatedProduct });
     Swal.fire({
@@ -92,7 +104,7 @@ const UpdateProduct = ({ productId }) => {
       showConfirmButton: false,
       timer: 1500,
     });
-    // console.log({ productId, ...updatedProduct }, 'from update modal');
+    // console.log({ productId, ...updatedProduct }, 'from update modal')
   };
 
   return (
@@ -104,7 +116,7 @@ const UpdateProduct = ({ productId }) => {
           </button>
         </DialogTrigger>
 
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] h-[300px] md:h-[400px] lg:h-[600px] overflow-y-auto py-10 mt-5">
           <DialogHeader>
             <DialogTitle>Update Product</DialogTitle>
             <DialogDescription>Update the product details</DialogDescription>
@@ -116,6 +128,7 @@ const UpdateProduct = ({ productId }) => {
                   Name
                 </Label>
                 <Input
+                  placeholder={productData?.data?.name}
                   value={formData.name}
                   onChange={handleChange}
                   id="name"
@@ -127,6 +140,7 @@ const UpdateProduct = ({ productId }) => {
                   Description
                 </Label>
                 <Input
+                  placeholder={productData?.data?.description || ""}
                   value={formData.description}
                   onChange={handleChange}
                   id="description"
@@ -137,32 +151,66 @@ const UpdateProduct = ({ productId }) => {
                 <Label htmlFor="category" className="text-right">
                   Category
                 </Label>
-                <Input
+                <select
+                  id="category"
                   value={formData.category}
                   onChange={handleChange}
-                  id="category"
-                  className="col-span-3"
-                />
+                  className="col-span-3 border rounded px-3 py-2"
+                >
+                  <option value="">
+                    {productData?.data?.category || "Select a category"}
+                  </option>
+                  <option value="fitness">Fitness</option>
+                  <option value="outdoor">Outdoor</option>
+                  <option value="accessories">Accessories</option>
+                  <option value="running">Running</option>
+                  <option value="soccer">Soccer</option>
+                  <option value="tennis">Tennis</option>
+                  <option value="basketball">Basketball</option>
+                  <option value="cycling">Cycling</option>
+                  <option value="golf">Golf</option>
+                  <option value="swimming">Swimming</option>
+                  <option value="cricket">Cricket</option>
+                  <option value="badminton">Badminton</option>
+                </select>
               </div>
+
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="brand" className="text-right">
                   Brand
                 </Label>
-                <Input
+                <select
+                  id="brand"
                   value={formData.brand}
                   onChange={handleChange}
-                  id="brand"
-                  className="col-span-3"
-                />
+                  className="col-span-3 border rounded px-3 py-2"
+                >
+                  <option value="">
+                    {productData?.data?.brand || "Select a brand"}
+                  </option>
+                  <option value="nike">Nike</option>
+                  <option value="adidas">Adidas</option>
+                  <option value="puma">Puma</option>
+                  <option value="under-armour">Under Armour</option>
+                  <option value="reebok">Reebok</option>
+                  <option value="asics">Asics</option>
+                  <option value="new-balance">New Balance</option>
+                  <option value="fila">Fila</option>
+                  <option value="mizuno">Mizuno</option>
+                  <option value="salomon">Salomon</option>
+                  <option value="oakley">Oakley</option>
+                  <option value="umbro">Umbro</option>
+                </select>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="stockQuantity" className="text-right">
+                <Label htmlFor="quantity" className="text-right">
                   Stock Quantity
                 </Label>
                 <Input
-                  value={formData.stockQuantity}
+                  placeholder={productData?.data?.quantity?.toString() || ""}
+                  value={formData.quantity}
                   onChange={handleChange}
-                  id="stockQuantity"
+                  id="quantity"
                   type="number"
                   className="col-span-3"
                 />
@@ -172,6 +220,7 @@ const UpdateProduct = ({ productId }) => {
                   Rating
                 </Label>
                 <Input
+                  placeholder={productData?.data?.rating?.toString() || ""}
                   value={formData.rating}
                   onChange={handleChange}
                   id="rating"
@@ -184,6 +233,7 @@ const UpdateProduct = ({ productId }) => {
                   Price
                 </Label>
                 <Input
+                  placeholder={productData?.data?.price?.toString() || ""}
                   value={formData.price}
                   onChange={handleChange}
                   id="price"
@@ -196,6 +246,7 @@ const UpdateProduct = ({ productId }) => {
                   Image Link
                 </Label>
                 <Input
+                  placeholder={productData?.data?.image || ""}
                   value={formData.image}
                   onChange={handleChange}
                   id="image"
@@ -206,7 +257,7 @@ const UpdateProduct = ({ productId }) => {
             <div className="flex justify-end">
               <DialogClose asChild>
                 <button
-                  className="px-4 py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-500 transition-colors duration-300"
+                  className="px-4 py-2 w-full bg-[#7ED957] text-white rounded-lg hover:bg-[#7ED957] transition-colors duration-300"
                   type="submit"
                 >
                   Save

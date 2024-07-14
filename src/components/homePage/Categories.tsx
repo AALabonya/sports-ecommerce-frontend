@@ -178,12 +178,14 @@ export default function Categories() {
             <div className=" border-2 border-[#7ED957] hover:border-green text-[#7ED957] hover:text-[#7ED957] duration-300 rounded-full size-32 flex justify-center items-center cursor-pointer">
               <MdOutlineSportsTennis className="text-6xl" />
               <img
-                src="https://th.bing.com/th/id/OIP.b2ePKH-sbtzeOC6wgoBLnQHaFb?rs=1&pid=ImgDetMain"
+                src="https://i.pinimg.com/originals/fc/54/db/fc54db64504754ab554f0530cfb03135.jpg"
                 alt=""
                 className="p-1"
               />
             </div>
-            <h5 className="text-xl font-semibold uppercase italic">Nike</h5>
+            <h5 className="text-xl font-semibold uppercase italic">
+              Accessories
+            </h5>
           </NavLink>
         </div>
       </div>

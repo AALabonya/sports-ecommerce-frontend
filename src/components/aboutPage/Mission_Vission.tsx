@@ -15,7 +15,7 @@ export default function Mission_Vission() {
               </Zoom>
             </div>
 
-            <Fade right>
+            <Fade direction="right">
               <figure>
                 <h1 className="title lg:text-5xl text-4xl font-bold  ">
                   Our
@@ -38,7 +38,7 @@ export default function Mission_Vission() {
       <section className="py-10 lg:px-24 md:px-16">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center justify-between">
-            <Fade left>
+            <Fade direction="left">
               <figure>
                 <h1 className="title lg:text-5xl text-4xl font-bold  ">
                   Our

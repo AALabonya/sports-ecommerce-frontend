@@ -14,7 +14,7 @@ const SuccessPage = () => {
         </p>
         <div>
           <Link to="/">
-            <button className="px-4 py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-500 transition-colors duration-300">
+            <button className="px-4 py-2 bg-[#7ED957] text-white font-bold text-2xl rounded-lg hover:bg-[#7ED957] transition-colors duration-300">
               Go to Home
             </button>
           </Link>

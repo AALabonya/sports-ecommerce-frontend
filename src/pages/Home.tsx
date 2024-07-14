@@ -15,10 +15,10 @@ export default function Home() {
       <Categories />
       <Collection />
       <FeatureProduct />
-
+      <BestDeal />
       <Contact />
       <AnotherSection />
-      <BestDeal />
+
       <Faq />
     </div>
   );

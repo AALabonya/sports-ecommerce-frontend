@@ -37,24 +37,24 @@ export default function OurTeam() {
 
                   <div className="team-icons flex gap-1 text-white">
                     <Link to="/">
-                      <span className="inline-block p-3 text-white rounded-full bg-primary">
+                      <span className="inline-block p-3 text-white rounded-full bg-[#7ED957]">
                         <FaFacebook />
                       </span>
                     </Link>
 
                     <Link to="/">
-                      <span className="inline-block p-3 text-white rounded-full bg-primary">
+                      <span className="inline-block p-3 text-white rounded-full bg-[#7ED957]">
                         <FaTwitter />
                       </span>
                     </Link>
                     <Link to="/">
-                      <span className="inline-block p-3 text-white rounded-full bg-primary">
+                      <span className="inline-block p-3 text-white rounded-full bg-[#7ED957]">
                         <FaInstagram />
                       </span>
                     </Link>
 
                     <Link to="/">
-                      <span className="inline-block p-3 text-white rounded-full bg-primary">
+                      <span className="inline-block p-3 text-white rounded-full bg-[#7ED957]">
                         <FaLinkedin />
                       </span>
                     </Link>
@@ -79,24 +79,24 @@ export default function OurTeam() {
 
                   <div className="team-icons flex gap-1 text-white">
                     <Link to="/">
-                      <span className="inline-block p-3 text-white rounded-full bg-primary">
+                      <span className="inline-block p-3 text-white rounded-full bg-[#7ED957]">
                         <FaFacebook />
                       </span>
                     </Link>
 
                     <Link to="/">
-                      <span className="inline-block p-3 text-white rounded-full bg-primary">
+                      <span className="inline-block p-3 text-white rounded-full bg-[#7ED957]">
                         <FaTwitter />
                       </span>
                     </Link>
                     <Link to="/">
-                      <span className="inline-block p-3 text-white rounded-full bg-primary">
+                      <span className="inline-block p-3 text-white rounded-full bg-[#7ED957]">
                         <FaInstagram />
                       </span>
                     </Link>
 
                     <Link to="/">
-                      <span className="inline-block p-3 text-white rounded-full bg-primary">
+                      <span className="inline-block p-3 text-white rounded-full bg-[#7ED957]">
                         <FaLinkedin />
                       </span>
                     </Link>
@@ -121,24 +121,24 @@ export default function OurTeam() {
 
                   <div className="team-icons flex gap-1 text-white">
                     <Link to="/">
-                      <span className="inline-block p-3 text-white rounded-full bg-primary">
+                      <span className="inline-block p-3 text-white rounded-full bg-[#7ED957]">
                         <FaFacebook />
                       </span>
                     </Link>
 
                     <Link to="/">
-                      <span className="inline-block p-3 text-white rounded-full bg-primary">
+                      <span className="inline-block p-3 text-white rounded-full bg-[#7ED957]">
                         <FaTwitter />
                       </span>
                     </Link>
                     <Link to="/">
-                      <span className="inline-block p-3 text-white rounded-full bg-primary">
+                      <span className="inline-block p-3 text-white rounded-full bg-[#7ED957]">
                         <FaInstagram />
                       </span>
                     </Link>
 
                     <Link to="/">
-                      <span className="inline-block p-3 text-white rounded-full bg-primary">
+                      <span className="inline-block p-3 text-white rounded-full bg-[#7ED957]">
                         <FaLinkedin />
                       </span>
                     </Link>
@@ -164,24 +164,24 @@ export default function OurTeam() {
 
                   <div className="team-icons flex gap-1 text-white">
                     <Link to="/">
-                      <span className="inline-block p-3 text-white rounded-full bg-primary">
+                      <span className="inline-block p-3 text-white rounded-full bg-[#7ED957]">
                         <FaFacebook />
                       </span>
                     </Link>
 
                     <Link to="/">
-                      <span className="inline-block p-3 text-white rounded-full bg-primary">
+                      <span className="inline-block p-3 text-white rounded-full bg-[#7ED957]">
                         <FaTwitter />
                       </span>
                     </Link>
                     <Link to="/">
-                      <span className="inline-block p-3 text-white rounded-full bg-primary">
+                      <span className="inline-block p-3 text-white rounded-full bg-[#7ED957]">
                         <FaInstagram />
                       </span>
                     </Link>
 
                     <Link to="/">
-                      <span className="inline-block p-3 text-white rounded-full bg-primary">
+                      <span className="inline-block p-3 text-white rounded-full bg-[#7ED957]">
                         <FaLinkedin />
                       </span>
                     </Link>

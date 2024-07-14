@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
   const [currentSlider, setCurrentSlider] = useState(0);
@@ -6,32 +7,42 @@ export default function Hero() {
     {
       img: "http://aboss2.demo.towerthemes.com/image/cache/catalog/slider/home2-slider2-1920x950.jpg",
       title: "BODY GYM WOMEN SPORT CLOTHING",
-      des: "A Symphony of Tranquility. Experience the perfect blend of relaxation and excitement.",
       btn: "Shop Now",
+      upto: "Upto",
+      percentage: "50%",
+      off: "OFF",
     },
     {
       img: "https://i.ibb.co/g3tqZ1B/sports1.jpg",
-      title: "Escape 2",
-      des: "A Symphony of Tranquility. Experience the perfect blend of relaxation and excitement.",
+      title: "Sportswear Collection",
       btn: "Shop Now",
+      upto: "Upto",
+      percentage: "40%",
+      off: "OFF",
     },
     {
       img: "https://bingo-sparta.myshopify.com/cdn/shop/files/slideshow2_1920x710.jpg?v=1613503680",
-      title: "Escape 3",
-      des: "A Symphony of Tranquility. Experience the perfect blend of relaxation and excitement.",
+      title: "Basketball Essentials",
       btn: "Shop Now",
+      upto: "Upto",
+      percentage: "60%",
+      off: "OFF",
     },
     {
       img: "https://sport.7uptheme.net/wp-content/uploads/2017/07/sl2.jpg",
-      title: "Escape 4",
-      des: "A Symphony of Tranquility. Experience the perfect blend of relaxation and excitement.",
+      title: "Women's Athletic Wear",
       btn: "Shop Now",
+      upto: "Upto",
+      percentage: "30%",
+      off: "OFF",
     },
     {
       img: "https://bingo-sparta.myshopify.com/cdn/shop/files/slideshow3_1920x710.jpg?v=1613503752",
       title: "Boost Your fitness now",
-      des: "A Symphony of Tranquility. Experience the perfect blend of relaxation and excitement.",
       btn: "Shop Now",
+      upto: "Upto",
+      percentage: "40%",
+      off: "OFF",
     },
   ];
 
@@ -40,7 +51,7 @@ export default function Hero() {
     const intervalId = setInterval(
       () =>
         setCurrentSlider(
-          currentSlider === data.length - 1 ? 0 : currentSlider + 1
+          currentSlider === sliders.length - 1 ? 0 : currentSlider + 1
         ),
       5000
     );
@@ -58,12 +69,20 @@ export default function Hero() {
           <h1 className="text-xl lg:text-3xl font-semibold mb-3">
             {sliders[currentSlider].title}
           </h1>
-          <p className="text-sm md:text-base lg:text-lg">
-            {sliders[currentSlider].des}
+          <p className="md:text-2xl text-lg text-white md:font-bold font-normal font-oswald uppercase  ">
+            {sliders[currentSlider].upto}
           </p>
-          <button className="text-sm bg-[#7ED957] px-2 mt-5 font-bold rounded-md text-white md:text-base lg:text-lg">
-            {sliders[currentSlider].btn}
-          </button>
+          <p className="md:text-6xl text-4xl text-yellow-400 font-bold font-oswald uppercase">
+            {sliders[currentSlider].percentage}
+          </p>
+          <p className="text-yellow-400 font-bold font-oswald uppercase">
+            {sliders[currentSlider].off}
+          </p>
+          <Link to="/all-product">
+            <button className="text-sm bg-[#7ED957] px-4 mt-5 font-bold rounded-md pt-3 pb-3 text-white md:text-base lg:text-lg">
+              {sliders[currentSlider].btn}
+            </button>
+          </Link>
         </div>
       </div>
       {/* slider container */}

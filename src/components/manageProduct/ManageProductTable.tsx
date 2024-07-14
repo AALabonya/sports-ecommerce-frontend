@@ -1,5 +1,6 @@
 import { useDeleteProductMutation } from "@/redux/api/baseApi";
 import UpdateProduct from "./UpdateProduct";
+import { AiFillDelete } from "react-icons/ai";
 
 export type TProductCardProps = {
   _id: string;
@@ -7,7 +8,7 @@ export type TProductCardProps = {
   description: string;
   category: string;
   brand: string;
-  stockQuantity: number;
+  quantity: number;
   rating: number;
   price: number;
   image: string;
@@ -78,13 +79,18 @@ const ManageProductTable = ({
           </p>
         </td>
         <td className="p-4 border-b border-blue-gray-50">
+          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+            {rating}
+          </p>
+        </td>
+        <td className="p-4 border-b border-blue-gray-50">
           <div className="mt-4 flex justify-between items-center">
             <UpdateProduct productId={_id}></UpdateProduct>
             <button
               onClick={removeProduct}
               className="px-4 py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-500 transition-colors duration-300"
             >
-              Delete
+              <AiFillDelete />
             </button>
           </div>
         </td>

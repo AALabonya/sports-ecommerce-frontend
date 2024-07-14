@@ -66,7 +66,7 @@ const Cards = ({ product }) => {
       </div>
 
       <Link to={`/product/${product._id}`}>
-        <button className="mt-2 w-full rounded-lg bg-[#545454] px-6 py-2 text-sm font-semibold text-white hover:bg-[#7ED957]">
+        <button className="mt-2 w-full rounded-lg hover:bg-[#545454] px-6 py-2 text-sm font-semibold text-white bg-[#7ED957]">
           View Details
         </button>
       </Link>

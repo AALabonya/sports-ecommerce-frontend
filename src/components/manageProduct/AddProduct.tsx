@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import {
   Dialog,
   DialogClose,
@@ -25,8 +25,9 @@ export default function AddProduct() {
 
   const [addProduct, { data, isLoading, isError, isSuccess }] =
     useAddProductMutation();
-  console.log(isLoading, isSuccess, isError, data);
-  const onSubmit = async (e) => {
+  console.log(data, isLoading, isError, isSuccess);
+
+  const onSubmit = async (e: FormEvent<HTMLElement>) => {
     e.preventDefault();
 
     const productAdd = {
@@ -39,7 +40,7 @@ export default function AddProduct() {
       price,
       image,
     };
-    console.log(productAdd);
+
     try {
       await addProduct(productAdd);
       Swal.fire({
@@ -69,14 +70,16 @@ export default function AddProduct() {
           </button>
         </DialogTrigger>
 
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] h-[300px] md:h-[400px] lg:h-[600px] overflow-y-auto py-10 mt-5">
           <DialogHeader>
-            <DialogTitle>Add Product</DialogTitle>
-            <DialogDescription>Add a new product</DialogDescription>
+            <DialogTitle className="text-center">Add Product</DialogTitle>
+            <DialogDescription className="text-center">
+              Add a new product
+            </DialogDescription>
           </DialogHeader>
           <form onSubmit={onSubmit}>
             <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
                 <Label htmlFor="name" className="text-right">
                   Name
                 </Label>
@@ -86,7 +89,7 @@ export default function AddProduct() {
                   className="col-span-3"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
                 <Label htmlFor="description" className="text-right">
                   Description
                 </Label>
@@ -96,28 +99,57 @@ export default function AddProduct() {
                   className="col-span-3"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
                 <Label htmlFor="category" className="text-right">
                   Category
                 </Label>
-                <Input
+                <select
                   onChange={(e) => setCategory(e.target.value)}
                   id="category"
-                  className="col-span-3"
-                />
+                  className="col-span-3 border rounded px-3 py-2"
+                >
+                  <option value="">Select a category</option>
+                  <option value="fitness">Fitness</option>
+                  <option value="outdoor">Outdoor</option>
+                  <option value="accessories">Accessories</option>
+                  <option value="running">Running</option>
+                  <option value="soccer">Soccer</option>
+                  <option value="tennis">Tennis</option>
+                  <option value="basketball">Basketball</option>
+                  <option value="cycling">Cycling</option>
+                  <option value="golf">Golf</option>
+                  <option value="swimming">Swimming</option>
+                  <option value="cricket">Cricket</option>
+                  <option value="badminton">Badminton</option>
+                </select>
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
+
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
                 <Label htmlFor="brand" className="text-right">
                   Brand
                 </Label>
-                <Input
+                <select
                   onChange={(e) => setBrand(e.target.value)}
                   id="brand"
-                  className="col-span-3"
-                />
+                  className="col-span-3 border rounded px-3 py-2"
+                >
+                  <option value="">Select a brand</option>
+                  <option value="nike">Nike</option>
+                  <option value="adidas">Adidas</option>
+                  <option value="puma">Puma</option>
+                  <option value="under-armour">Under Armour</option>
+                  <option value="reebok">Reebok</option>
+                  <option value="asics">Asics</option>
+                  <option value="new-balance">New Balance</option>
+                  <option value="fila">Fila</option>
+                  <option value="mizuno">Mizuno</option>
+                  <option value="salomon">Salomon</option>
+                  <option value="oakley">Oakley</option>
+                  <option value="umbro">Umbro</option>
+                </select>
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="stockQuantity" className="text-right">
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+                <Label htmlFor="quantity" className="text-right">
                   Stock Quantity
                 </Label>
                 <Input
@@ -127,7 +159,7 @@ export default function AddProduct() {
                   className="col-span-3"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
                 <Label htmlFor="rating" className="text-right">
                   Rating
                 </Label>
@@ -138,7 +170,7 @@ export default function AddProduct() {
                   className="col-span-3"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
                 <Label htmlFor="price" className="text-right">
                   Price
                 </Label>
@@ -149,7 +181,7 @@ export default function AddProduct() {
                   className="col-span-3"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
                 <Label htmlFor="image" className="text-right">
                   Image Link
                 </Label>
@@ -160,10 +192,10 @@ export default function AddProduct() {
                 />
               </div>
             </div>
-            <div className="flex justify-end">
+            <div className="flex justify-end mt-2 mb-7">
               <DialogClose asChild>
                 <button
-                  className="px-4 py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-500 transition-colors duration-300"
+                  className="px-4 py-2 w-full bg-[#7ED957] text-white rounded-lg hover:bg-[#7ED957] transition-colors duration-300"
                   type="submit"
                 >
                   Save
