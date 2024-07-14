@@ -34,10 +34,7 @@ export default function FeatureProduct() {
           you.
         </p>
       </div>
-      <div className="container mx-auto px-4 md:px-6">
-        <h2 className="text-3xl text-center font-medium mb-6">
-          Latest Products
-        </h2>
+      <div className="container mt-12 mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products?.data?.map((product: { _id: any }) => (
             <Cards product={product} key={product._id}></Cards>

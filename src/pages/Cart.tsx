@@ -43,24 +43,6 @@ const Cart = () => {
   const vat = subtotal * 0.15;
   const total = subtotal + vat;
 
-  // const handleCheckout = (productId?: string) => {
-  //   if (productId) {
-  //     navigate(`/check-out?productId=${productId}`);
-  //   } else {
-  //     if (cart.every((item) => item.product.quantity >= item.quantity)) {
-  //       navigate("/check-out");
-  //     } else {
-  //       Swal.fire({
-  //         position: "top-end",
-  //         icon: "error",
-  //         title: "Some items are out of stock!",
-  //         showConfirmButton: false,
-  //         timer: 1500,
-  //       });
-  //     }
-  //   }
-  // };
-
   return (
     <>
       <div className="mb-16">
@@ -88,26 +70,30 @@ const Cart = () => {
       </div>
       <div className="min-h-screen mb-5 flex rounded-2xl bg-gray-100  flex-col items-center py-10">
         <h1 className="text-3xl font-medium mb-8">Cart</h1>
-        <div className="w-full flex justify-between max-w-7xl  rounded-lg shadow-lg p-6">
+        <div className=" flex flex-col md:flex-row pt-5 lg:justify-between max-w-7xl gap-24 rounded-lg shadow-lg p-6">
           {cart.length > 0 ? (
             <ul className="space-y-6 ">
               {cart.map((item) => (
                 <li
                   key={item.productId}
-                  className="flex justify-between items-center gap-10 bg-gray-50 p-4 rounded-lg shadow"
+                  className="flex  items-center bg-gray-50 p-4 rounded-lg shadow"
                 >
-                  <div>
+                  <div className="flex ">
                     <img
                       src={item.product.image}
                       alt={item.product.name}
-                      className="w-20 h-20 object-cover rounded-lg"
+                      className="w-20 h-20 object-cover rounded-lg mr-4"
                     />
+                    <div className="flex ">
+                      <h2 className="text-lg font-semibold mr-16">
+                        {item.product.name}
+                        <p className=" text-base">
+                          Price: ${item.product.price.toFixed(2)}
+                        </p>
+                      </h2>
+                    </div>
                   </div>
                   <div>
-                    <h2 className="text-lg font-semibold">
-                      {item.product.name}
-                    </h2>
-                    <p>Price: ${item.product.price.toFixed(2)}</p>
                     <div className="flex items-center">
                       <button
                         onClick={() =>
@@ -136,9 +122,9 @@ const Cart = () => {
                         +
                       </button>
                     </div>
-                    <p>
+                    <p className="mt-3">
                       Calculation: ${item.product?.price}{" "}
-                      <span className="font-normal text-xs">
+                      <span className="font-normal text-xs pt-2">
                         *{item.quantity}
                       </span>{" "}
                     </p>
@@ -146,7 +132,7 @@ const Cart = () => {
                       Subtotal: ${item.product?.price * item.quantity}
                     </p>
                   </div>
-                  <div className="mt-2 flex gap-2">
+                  <div className="mt-2 flex gap-2  ml-16">
                     <button
                       onClick={() => handleRemove(item.productId)}
                       className="text-red-600 text-3xl flex justify-center"
@@ -182,12 +168,92 @@ const Cart = () => {
               </p>
 
               <NavLink to={"/check-out"} className="w-full">
-                <Button className="bg-green-500 w-full">
+                <Button className="bg-[#7ED957] w-full">
                   PROCEED TO CHECKOUT
                 </Button>
               </NavLink>
             </div>
           )}
+        </div>
+      </div>
+      {/* //code */}
+      <div className="flex justify-center">
+        <div className="flex flex-col lg:flex-row gap-44">
+          <div>
+            {" "}
+            {cart.length > 0 ? (
+              <div className="space-y-6 ">
+                {cart.map((item) => (
+                  <div
+                    key={item.productId}
+                    className="flex justify-between  items-center gap-10 bg-gray-50 rounded-lg shadow"
+                  >
+                    <div>
+                      <img
+                        src={item.product.image}
+                        alt={item.product.name}
+                        className="w-20 h-20 object-cover rounded-lg"
+                      />
+                    </div>
+                    <div>
+                      <h2 className="text-lg font-semibold">
+                        {item.product.name}
+                      </h2>
+                      <p>Price: ${item.product.price.toFixed(2)}</p>
+                      <div className="flex items-center">
+                        <button
+                          onClick={() =>
+                            handleQuantityChange(
+                              item.productId,
+                              item.quantity - 1
+                            )
+                          }
+                          disabled={item.quantity <= 1}
+                          className="px-2 py-1 bg-gray-300 rounded-l-lg"
+                        >
+                          -
+                        </button>
+                        <span className="px-4">{item.quantity}</span>
+
+                        <button
+                          onClick={() =>
+                            handleQuantityChange(
+                              item.productId,
+                              item.quantity + 1
+                            )
+                          }
+                          disabled={item.quantity >= item.product.quantity}
+                          className="px-2 py-1 bg-gray-300 rounded-r-lg"
+                        >
+                          +
+                        </button>
+                      </div>
+                      <p>
+                        Calculation: ${item.product?.price}{" "}
+                        <span className="font-normal text-xs">
+                          *{item.quantity}
+                        </span>{" "}
+                      </p>
+                      <p className="text-xs md:text-sm">
+                        Subtotal: ${item.product?.price * item.quantity}
+                      </p>
+                    </div>
+                    <div className="mt-2 gap-2">
+                      <button
+                        onClick={() => handleRemove(item.productId)}
+                        className="text-red-600 text-3xl"
+                      >
+                        <AiFillDelete className="text-red-600 text-3xl flex justify-center" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-gray-500">Your cart is empty.</p>
+            )}
+          </div>
+          <div>666</div>
         </div>
       </div>
     </>

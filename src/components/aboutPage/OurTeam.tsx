@@ -8,11 +8,7 @@ export default function OurTeam() {
       <section className="team-area">
         <div className="container">
           <div className="team-wrapper">
-            <div
-              className="team-title section-title"
-              data-aos="zoom-in-up"
-              data-aos-duration="1000"
-            >
+            <div className="team-title section-title">
               <h1 className="text-center text-[#545454] text-3xl font-semibold">
                 Our Creative Team
               </h1>
@@ -24,11 +20,7 @@ export default function OurTeam() {
             </div>
 
             <div className="team-content">
-              <div
-                className="team-member"
-                data-aos="fade-up"
-                data-aos-duration="1000"
-              >
+              <div className="team-member">
                 <div className="image">
                   <img
                     src="https://i.ibb.co/QnfnVJS/bohemian-man-with-his-arms-crossed-1368-3542.webp"
@@ -66,11 +58,7 @@ export default function OurTeam() {
                 </div>
               </div>
 
-              <div
-                className="team-member"
-                data-aos="fade-up"
-                data-aos-duration="1000"
-              >
+              <div className="team-member">
                 <div className="image">
                   <img
                     src="https://i.ibb.co/0rrtScp/cheerful-curly-business-girl-wearing-glasses-176420-206.jpg"
@@ -108,11 +96,7 @@ export default function OurTeam() {
                 </div>
               </div>
 
-              <div
-                className="team-member"
-                data-aos="fade-up"
-                data-aos-duration="1000"
-              >
+              <div className="team-member">
                 <div className="image">
                   <img
                     src="https://i.ibb.co/SRkp8Dp/ambition-gets-you-far-i-can-testify-that-portrait-confident-mature-businessman-standing-office-with.webp"

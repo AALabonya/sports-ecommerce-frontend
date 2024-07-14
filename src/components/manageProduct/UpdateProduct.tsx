@@ -111,8 +111,8 @@ const UpdateProduct = ({ productId }: { productId: string }) => {
     <div>
       <Dialog>
         <DialogTrigger asChild>
-          <button className="px-4 py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-500 transition-colors duration-300">
-            Update
+          <button className="bg-[#7ED957] px-2 py-2 font-bold text-white rounded-lg  transition-colors duration-300">
+            Edit
           </button>
         </DialogTrigger>
 

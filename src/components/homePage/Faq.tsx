@@ -1,6 +1,6 @@
 export default function Faq() {
   return (
-    <div className="container mb-16">
+    <div className="container mt-52 md:mt-56 lg:mt-0 mb-16">
       <div className="container md:mt-[120px] mt-10">
         <div className="flex flex-col md:flex-row gap-6">
           <div>

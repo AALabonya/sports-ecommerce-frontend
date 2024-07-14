@@ -96,7 +96,7 @@ const AllProducts = () => {
       const minPrice = getMinPrice(selectedPriceRange);
       const maxPrice = getMaxPrice(selectedPriceRange);
       filteredProducts = filteredProducts.filter((product) => {
-        const price = product.price; // Adjust this based on your product structure
+        const price = product.price;
         return (
           (!minPrice || price >= minPrice) && (!maxPrice || price <= maxPrice)
         );
@@ -106,8 +106,8 @@ const AllProducts = () => {
     // Filter by rating
     if (selectedRating !== "all") {
       filteredProducts = filteredProducts.filter((product) => {
-        const rating = product.rating; // Adjust this based on your product structure
-        return rating === parseInt(selectedRating); // Adjust for your rating comparison logic
+        const rating = product.rating;
+        return rating === parseInt(selectedRating);
       });
     }
 
@@ -125,9 +125,8 @@ const AllProducts = () => {
       case "priceDesc":
         sortedProducts.sort((a, b) => b.price - a.price);
         break;
-      // Add more cases for additional sorting criteria if needed
+
       default:
-        // No sorting or default sorting logic
         break;
     }
 
@@ -303,7 +302,6 @@ const AllProducts = () => {
       <div className="mx-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-5">
         {isLoading ? (
           <p className="text-2xl text-black flex justify-center items-center">
-            {/* <Extra></Extra> */}
             Loading......
           </p>
         ) : isError ? (

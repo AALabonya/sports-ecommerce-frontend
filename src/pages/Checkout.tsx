@@ -103,7 +103,7 @@ const Checkout = () => {
         </div>
       </div>
 
-      <div className="container mb-5 rounded-2xl bg-gray-100 flex justify-evenly items-center py-5">
+      <div className="container mb-5 rounded-2xl bg-gray-100 grid grid-cols-1 md:grid-cols-2  items-center py-5">
         <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
           <h2 className="text-xl text-center font-semibold text-gray-900">
             Delivery Details
@@ -143,7 +143,9 @@ const Checkout = () => {
         <div>
           <div className="mt-6 w-full space-y-6 sm:mt-8 lg:mt-0 lg:max-w-xs xl:max-w-md">
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-gray-900">Payment</h3>
+              <h3 className="text-xl text-center font-semibold text-gray-900">
+                Payment
+              </h3>
               <div className="grid grid-cols-1 gap-4">
                 <div className="rounded-lg border p-4 px-4">
                   <div className=" gap-2">

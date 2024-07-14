@@ -51,7 +51,7 @@ const ManageProductTable = ({
         </td>
         <td className="p-4 border-b border-blue-gray-50">
           <div className="flex flex-col">
-            <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+            <p className="block w-[30%] font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
               {description}
             </p>
           </div>
@@ -88,9 +88,9 @@ const ManageProductTable = ({
             <UpdateProduct productId={_id}></UpdateProduct>
             <button
               onClick={removeProduct}
-              className="px-4 py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-500 transition-colors duration-300"
+              className="px-4 py-2 text-red-500 rounded-lg transition-colors duration-300"
             >
-              <AiFillDelete />
+              <AiFillDelete className="h-12 w-16" />
             </button>
           </div>
         </td>

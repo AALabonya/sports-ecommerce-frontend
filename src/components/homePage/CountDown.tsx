@@ -48,7 +48,7 @@ const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
     timerComponents.push(
       <span
         key={interval}
-        className="bg-[#7ED957] text-white shadow-xl h-20 px-10 rounded-xl text-2xl font-bold flex flex-col justify-end items-center"
+        className="bg-[#7ED957] text-white shadow-xl lg:h-20 lg:px-10 rounded-xl lg:text-2xl font-bold flex flex-col justify-center items-center"
       >
         <h1 className="text-3xl font-bold">{value}</h1>
         <h1 className="text-lg">{interval}</h1>
@@ -81,8 +81,7 @@ const BestDeal: React.FC = () => {
           alignItems: "center",
         }}
       >
-        <img src="{deal}" alt="" />
-        <h1 className="text-6xl font-bold text-center text-white">
+        <h1 className="lg:text-6xl md:text-3xl text-2xl pt-7 font-bold text-center text-white">
           Grab the best Offer Of <br /> this Week!
         </h1>
         <Countdown targetDate={targetDate.toISOString()} />
