@@ -1,4 +1,4 @@
-## Sports shop E-commerce Project Overview
+## FitPro E-commerce Project Overview
 
 ### Introduction
 
