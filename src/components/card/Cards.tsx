@@ -1,8 +1,21 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Star, StarIcon } from "lucide-react";
 import { Link } from "react-router-dom";
-import Rating from "react-rating";
 
-const Cards = ({ product }) => {
+const Cards = ({ product }: any) => {
+  const Rating = (rating: number) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        i <= rating ? (
+          <Star key={i} className="text-yellow-500 fill-yellow-500 " />
+        ) : (
+          <StarIcon key={i} className="text-gray-500" />
+        )
+      );
+    }
+    return stars;
+  };
   return (
     <div className="w-full max-w-md space-y-4 rounded-lg bg-white p-6 shadow-lg dark:bg-[#18181B]">
       <div className="flex flex-col space-y-2">
@@ -18,28 +31,7 @@ const Cards = ({ product }) => {
             Category: {product.category}
           </p>
           <div className="items-center">
-            <Rating
-              emptySymbol={
-                <svg
-                  className="w-5 h-5 text-gray-300"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 17.27l5.18 3.73-1.64-6.81 5.22-4.4-6.82-.59L12 .98 9.06 8.2l-6.82.59 5.22 4.4L6.82 21z" />
-                </svg>
-              }
-              fullSymbol={
-                <svg
-                  className="w-5 h-5 text-yellow-400"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 17.27l5.18 3.73-1.64-6.81 5.22-4.4-6.82-.59L12 .98 9.06 8.2l-6.82.59 5.22 4.4L6.82 21z" />
-                </svg>
-              }
-              initialRating={product.rating}
-              readonly
-            />
+            <span className="flex gap-2">{Rating(product.data.rating)}</span>
             <span className="text-sm text-gray-500 dark:text-gray-400">
               ({product.rating})
             </span>

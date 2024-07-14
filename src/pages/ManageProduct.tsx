@@ -3,11 +3,13 @@ import { useGetAllProductsQuery } from "@/redux/api/baseApi";
 
 import ManageProductTable from "@/components/manageProduct/ManageProductTable";
 import { NavLink } from "react-router-dom";
-import { Product, ProductsResponse } from "@/types/Types";
+import { TProductCardProps } from "@/redux/feature/cartSlice";
 
 export default function ManageProduct() {
-  const { data: products, isLoading } =
-    useGetAllProductsQuery<ProductsResponse>(undefined);
+  const { data: products, isLoading } = useGetAllProductsQuery(undefined, {
+    pollingInterval: 10000,
+  });
+
   console.log(isLoading);
 
   if (isLoading) {
@@ -119,12 +121,14 @@ export default function ManageProduct() {
                 </tr>
               </thead>
               <tbody>
-                {products?.data?.map((product: Product) => (
-                  <ManageProductTable
-                    key={product._id}
-                    {...product}
-                  ></ManageProductTable>
-                ))}
+                {products?.data?.map(
+                  (product: JSX.IntrinsicAttributes & TProductCardProps) => (
+                    <ManageProductTable
+                      key={product._id}
+                      {...product}
+                    ></ManageProductTable>
+                  )
+                )}
               </tbody>
             </table>
           </div>

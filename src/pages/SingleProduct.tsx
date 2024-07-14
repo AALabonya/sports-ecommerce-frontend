@@ -1,8 +1,8 @@
-import { useGetProductByIdQuery } from "@/redux/api/baseApi"; // Adjust path as per your project structure
+import { useGetProductByIdQuery } from "@/redux/api/baseApi";
 import { addToCart } from "@/redux/feature/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useParams } from "react-router-dom";
-import Rating from "react-rating";
+import { Star, StarIcon } from "lucide-react";
 import { CiFacebook, CiInstagram, CiTwitter } from "react-icons/ci";
 import Swal from "sweetalert2";
 
@@ -17,6 +17,20 @@ const SingleProduct: React.FC = () => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart.items);
   const cartItem = cart.find((item) => item.productId === productId);
+
+  const Rating = (rating: number) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        i <= rating ? (
+          <Star key={i} className="text-yellow-500 fill-yellow-500 " />
+        ) : (
+          <StarIcon key={i} className="text-gray-500" />
+        )
+      );
+    }
+    return stars;
+  };
 
   const handleAddToCart = () => {
     if (cartItem) {
@@ -75,28 +89,7 @@ const SingleProduct: React.FC = () => {
               {product?.data?.name}
             </h2>
             Rating:
-            <Rating
-              emptySymbol={
-                <svg
-                  className="w-5 h-5 text-gray-300"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 17.27l5.18 3.73-1.64-6.81 5.22-4.4-6.82-.59L12 .98 9.06 8.2l-6.82.59 5.22 4.4L6.82 21z" />
-                </svg>
-              }
-              fullSymbol={
-                <svg
-                  className="w-5 h-5 text-yellow-400"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 17.27l5.18 3.73-1.64-6.81 5.22-4.4-6.82-.59L12 .98 9.06 8.2l-6.82.59 5.22 4.4L6.82 21z" />
-                </svg>
-              }
-              initialRating={product.data.rating}
-              readonly
-            />
+            <span className="flex gap-2">{Rating(product.data.rating)}</span>
             <p className=" items-center">
               Price:{" "}
               <span className="text-xl md:text-2xl font-semibold">
